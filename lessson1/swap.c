@@ -3,8 +3,7 @@
 int main()
 {
     int x, y;
-    scanf("%d", &x);
-    scanf("%d", &y);
+    scanf("%d %d", &x, &y);
     x += y;
     y = x - y;
     x -= y;
