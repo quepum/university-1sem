@@ -10,7 +10,6 @@ int main()
         flag = 1; 
         a = fabs(a); 
         b=fabs(b);
-        
     }
     if (b != 0)
     {
