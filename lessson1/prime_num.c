@@ -1,18 +1,31 @@
+#include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 
-int main()
-{
-    int n, cnt;
-    scanf("%d", &n);
-    for(int i=1; i <= n; i+=1)
-    {
-        cnt = 0;
-        for(int j = 1; j <= i; j += 1)
-        {
-            if (i % j == 0) {cnt += 1;}
+bool is_prime(const int n) {
+    for (int divisor = 2; divisor < sqrt(n) + 1; ++divisor) {
+        if (n % divisor == 0) {
+            return false;
         }
-        if(cnt == 2 || i == 1) {printf("%d\t", i);}
     }
-    
+    return true;
+}
+
+
+int main(void) {
+    int number = 0;
+    printf("%s", "Введите число: ");
+    scanf("%d", &number);
+    if (number > 1) {
+        printf("%s", "Простыми числами являются:\n");
+        for (int i = 2; i <= number; ++i) {
+            if (is_prime(i) == true) {
+                printf("%d\t", i);
+            }
+        }
+    }
+    else {
+        printf("%s", "error");
+    }
     return 0;
 }
