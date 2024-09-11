@@ -11,7 +11,6 @@ bool is_prime(const int n) {
     return true;
 }
 
-
 int main(void) {
     int number = 0;
     printf("%s", "Введите число: ");
