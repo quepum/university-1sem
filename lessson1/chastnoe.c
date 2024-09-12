@@ -18,10 +18,10 @@ int main(void) {
     int a, b;
     printf("Введите делимое и делитель\n");
     scanf("%d %d", &a, &b);
-    if (b == 0) {
-        printf("%s", "error");
-    } else {
+    if (b != 0) {
         printf("Неполное частное равно %d", func(a, b));
+    } else {
+        printf("%s", "error");
     }
     return 0;
 }
