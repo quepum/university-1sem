@@ -7,7 +7,7 @@ int func(int num1, int num2) {
         divisible -= divisor;
         ++result;
     }
-    if ((num1 > 0 && num2 > 0) || (num1 < 0 && num2 < 0)) {
+    if ((num1 >= 0 && num2 > 0) || (num1 <= 0 && num2 < 0)) {
         return result;
     } else {
         return -result;
