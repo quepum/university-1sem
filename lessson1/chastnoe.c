@@ -1,29 +1,27 @@
 #include <stdio.h>
 #include <math.h>
 
-int main()
-{
-    int a, b, cnt = 0, flag = 0;
-    scanf("%d %d", &a, &b);
-    if(a < 0 || b < 0)
-    {
-        flag = 1; 
-        a = fabs(a); 
-        b=fabs(b);
+int func(int num1, int num2) {
+    int result = 0, divisible = fabs(num1), divisor = fabs(num2);
+    while (divisible >= divisor) {
+        divisible -= divisor;
+        ++result;
     }
-    if (b != 0)
-    {
-        while (a >= b)
-        {
-            a -= b;
-            cnt += 1;
-        }
-    } else {printf("error");}
-    
-    if (flag == 1) 
-    {
-        printf("%d", -cnt);
-        
-    } else {printf("%d", cnt);}
+    if ((num1 > 0 && num2 > 0) || (num1 < 0 && num2 < 0)) {
+        return result;
+    } else {
+        return -result;
+    }
+}
+
+int main(void) {
+    int a, b;
+    printf("Введите делимое и делитель\n");
+    scanf("%d %d", &a, &b);
+    if (b == 0) {
+        printf("%s", "error");
+    } else {
+        printf("Неполное частное равно %d", func(a, b));
+    }
     return 0;
 }
