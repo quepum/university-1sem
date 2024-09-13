@@ -15,7 +15,7 @@ int func(int num1, int num2) {
 }
 
 int main(void) {
-    int a, b;
+    int a = 0, b = 0;
     printf("Введите делимое и делитель\n");
     scanf("%d %d", &a, &b);
     if (b != 0) {
