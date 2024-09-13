@@ -1,16 +1,16 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-bool balance(const char stringForCheking[], const int lenString) {
+bool balance(const char stringForChecking[], const int lenString) {
     int counterBracket = 0;
     for (int i = 0; i < lenString - 1; ++i) {
         if (counterBracket < 0) {
             return false;
         }
-        if (stringForCheking[i] == '(') {
+        if (stringForChecking[i] == '(') {
             ++counterBracket;
         }
-        if (stringForCheking[i] == ')') {
+        if (stringForChecking[i] == ')') {
             --counterBracket;
         }
     }
