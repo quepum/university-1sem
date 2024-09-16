@@ -31,8 +31,8 @@ int main(void) {
     printf("Введите 2 строку (не более 100 символов)\n");
     fgets(s1, 101, stdin);
 
-    int len_s = strlen(s), len_s1 = strlen(s1);
+    int lenS = strlen(s), lenS1 = strlen(s1);
 
-    printf("Количество вхождений S1 в S как подстроки составляет: %d", func(s, len_s - 1, s1, len_s1 - 1));
+    printf("Количество вхождений S1 в S как подстроки составляет: %d", func(s, lenS - 1, s1, lenS1 - 1));
     return 0;
 }
