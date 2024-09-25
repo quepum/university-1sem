@@ -39,7 +39,7 @@ bool test3() {
 
 bool test4() {
     float correctAnswer = 0.25;
-    return ((1.0 / powerFast(2, -2)) - correctAnswer < 0.0001);
+    return ((1.0 / powerFast(2, -2)) - correctAnswer < 0.00001);
 }
 
 
