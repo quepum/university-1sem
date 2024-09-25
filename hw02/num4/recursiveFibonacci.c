@@ -28,16 +28,17 @@ int main(void) {
 
     int numberOfFibonacci = 0;
 
-    printf("%s", "Enter how many fibonacci numbers you want to get:");
+    printf("%s", "Enter how many fibonacci numbers you want to get(no more than 60):");
     scanf("%d", &numberOfFibonacci);
 
-    while (numberOfFibonacci <= 0) {
-        printf("Enter a natural number!\n");
+    while (numberOfFibonacci <= 0 || numberOfFibonacci > 60) {
+        printf("Enter a natural number no more than 60!\n");
         printf("%s", "Enter how many fibonacci numbers you want to get:");
         scanf("%d", &numberOfFibonacci);
     }
 
     printf("%s", "Answer:\n");
+
     for (int i = 1; i <= numberOfFibonacci; ++i) {
         printf("%d.%lld\n",i, recursiveMethod(i));
     }
