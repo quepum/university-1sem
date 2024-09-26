@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-long long int recursiveMethod(int num) {
+long long int recursiveMethod(const int num) {
     if (num == 1 || num == 2) {
         return 1;
     }
@@ -9,13 +9,20 @@ long long int recursiveMethod(int num) {
 }
 
 bool test() {
-    int collectionFibonacci[10] = {1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
+    const int collectionFibonacci[10] = {1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
     for (int i = 1; i <= 10; ++i) {
         if (recursiveMethod(i) != collectionFibonacci[i - 1]) {
             return false;
         }
     }
     return true;
+}
+
+int checkInput(const int num) {
+    if (num <= 0 || num > 60) {
+        return 1;
+    }
+    return 0;
 }
 
 int main(void) {
@@ -28,13 +35,15 @@ int main(void) {
 
     int numberOfFibonacci = 0;
 
-    printf("%s", "Enter how many fibonacci numbers you want to get(no more than 60):");
+    printf("%s", "Enter how many fibonacci numbers you want to get(no more than 40):");
     scanf("%d", &numberOfFibonacci);
 
-    while (numberOfFibonacci <= 0 || numberOfFibonacci > 60) {
-        printf("Enter a natural number no more than 60!\n");
+    int errorCode = checkInput(numberOfFibonacci);
+    while (errorCode != 0) {
+        printf("Enter a natural number no more than 40!\n");
         printf("%s", "Enter how many fibonacci numbers you want to get:");
         scanf("%d", &numberOfFibonacci);
+        errorCode = checkInput(numberOfFibonacci);
     }
 
     printf("%s", "Answer:\n");
