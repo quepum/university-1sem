@@ -1,29 +1,40 @@
 #include <stdio.h>
-#include <math.h>
+#include <stdbool.h>
 
-int incompleteQuotientCounter(const int num1, const int num2) {
+int incompleteQuotientCounter(int dividend, int divisor) {
+    bool dividendIsNegative = false;
+    bool divisorIsNegative = false;
+
+    if (dividend < 0) {
+        dividend = -dividend;
+        dividendIsNegative = true;
+    }
+    if (divisor < 0) {
+        divisor = -divisor;
+        divisorIsNegative = true;
+    }
+
+    int initialDividend = dividend;
+
     int result = 0;
-    int dividend = abs(num1);
-    int divisor = abs(num2);
-
-    while (dividend >= divisor) {
-        dividend -= divisor;
+    while (initialDividend >= divisor) {
+        initialDividend -= divisor;
         ++result;
     }
 
-    if (dividend == 0) {
-        if (num1 < 0 || num2 < 0) {
+    if (dividendIsNegative != divisorIsNegative) {
+        if (dividendIsNegative && !divisorIsNegative) {
+            return -result - 1;
+        } else {
             return -result;
         }
+    }
+
+    if (dividendIsNegative && divisorIsNegative) {
+        return result + 1;
+    } else {
         return result;
     }
-    if (num1 >= 0 && num2 > 0) {
-        return result;
-    }
-    if (num1 <= 0 && num2 < 0) {
-        return (result + 1);
-    }
-    return -(result + 1);
 }
 
 int main(void) {
