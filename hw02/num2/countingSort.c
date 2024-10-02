@@ -40,8 +40,6 @@ int countingSort(const int length, int inputCollection[]) {
         indexList[i] += indexList[i - 1];
     }
 
-
-
     int *outputCollection = malloc(length * sizeof(int));
     if (checkArrays(outputCollection) != 0) {
         printf("ERROR: memory is not available!\n");
