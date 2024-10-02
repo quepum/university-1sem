@@ -26,7 +26,7 @@ int countingSort(const int length, int inputCollection[]) {
     }
     ++maxElement;
 
-    int *indexList = calloc(maxElement, sizeof(long int));
+    int *indexList = calloc(maxElement, sizeof(int));
     if (checkArrays(indexList) != 0) {
         printf("ERROR: memory is not available!\n");
         return 1;
@@ -36,15 +36,15 @@ int countingSort(const int length, int inputCollection[]) {
         ++indexList[inputCollection[i]];
     }
 
-    for (int i = 1; i <= maxElement; ++i) {
+    for (int i = 1; i < maxElement; ++i) {
         indexList[i] += indexList[i - 1];
     }
 
-    int *outputCollection = calloc(length, sizeof(long int));
-    if (checkArrays(indexList) != 0) {
+
+
+    int *outputCollection = malloc(length * sizeof(int));
+    if (checkArrays(outputCollection) != 0) {
         printf("ERROR: memory is not available!\n");
-        free(inputCollection);
-        free(outputCollection);
         free(indexList);
         return 1;
     }
@@ -124,16 +124,15 @@ int main(void) {
     }
 
     srand(time(0));
-    int *collection = malloc(size * sizeof(long int));
+    int *collection = malloc(size * sizeof(int));
 
-    const int errorCode = checkArrays(collection);
-    if (errorCode != 0) {
+    if (collection == NULL) {
         printf("ERROR: memory is not available!\n");
         return 1;
     }
 
     for (int i = 0; i < size; i++) {
-        collection[i] = rand() % 1000;
+        collection[i] = rand() % 10000;
     }
 
     printf("Before sorting:\n");
