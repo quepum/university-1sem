@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-
 void swap(int *firstValue, int *secondValue) {
     int copy = *firstValue;
     *firstValue = *secondValue;
@@ -32,7 +31,6 @@ void quickSort(int inputCollection[], const int low, int high) {
         if (inputCollection[j] <= pivot) {
             swap(&inputCollection[i], &inputCollection[j]);
             ++i;
-
         }
     }
     swap(&inputCollection[i], &inputCollection[high]);
