@@ -62,7 +62,6 @@ bool test1(){
     quickSort(collectionForTesting, 0, TEST_SIZE - 1);
     if (!checkSorting(collectionForTesting, TEST_SIZE)) {
         free(collectionForTesting);
-        printf("test1");
         return false;
     }
     free(collectionForTesting);
@@ -72,10 +71,7 @@ bool test1(){
 bool test2() {
     int collectionForTesting[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     quickSort(collectionForTesting, 0, 9);
-    if (!checkSorting(collectionForTesting, 10)) {
-        return false;
-    }
-    return true;
+    return checkSorting(collectionForTesting, 10);
 }
 
 bool test3() {
