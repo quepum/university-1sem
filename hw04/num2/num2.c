@@ -68,7 +68,7 @@ int main() {
     fclose(input);
 
     printf("Your collection is:\n");
-    printer(collection, indexOfInputNumber + 1);
+    printer(collection, indexOfInputNumber);
     quickSort(collection, 0, indexOfInputNumber - 1);
 
     printf("The most frequent element in the array is: %d ", mostFrequentElement(collection, indexOfInputNumber));
