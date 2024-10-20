@@ -39,6 +39,13 @@ bool test3() {
     return mostFrequentElement(test3, 10) == 1;
 }
 
+void printer(int array[], const int size) {
+    for (int i = 0; i < size; ++i) {
+        printf("%d\t", array[i]);
+    }
+    printf("\n");
+}
+
 int main(){
     if (!(tests() && test1() && test2() && test3())){
         printf("Tests failed, something went wrong");
@@ -47,13 +54,18 @@ int main(){
         printf("%s", "The tests were passed successfully\n");
     }
 
-    FILE* inputCollection = fopen("inputData.txt", "r");
-    if (inputCollection == NULL){
+    FILE* input = fopen("inputData.txt", "r");
+    if (input == NULL){
         printf("File doesn't exist");
         return -1;
     }
 
+    int collection[SIZE] = {0};
+    int indexOfInputNumber = 0
+    while (fscanf(input, "%d", &collection[indexOfInputNumber]) != EOF) {
+        ++indexOfInputNumber;
+    }
+    fclose(input);
 
-    fclose(inputCollection);
     return 0;
 }
