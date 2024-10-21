@@ -36,7 +36,7 @@ bool test2() {
 
 bool test3() {
     int test3[1] = {1};
-    return mostFrequentElement(test3, 10) == 1;
+    return mostFrequentElement(test3, 1) == 1;
 }
 
 void printer(int array[], const int size) {
