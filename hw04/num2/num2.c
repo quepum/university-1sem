@@ -4,7 +4,7 @@
 
 #define SIZE 100
 
-int mostFrequentElement(int array[], int length) {
+int mostFrequentElement(const int array[], int length) {
     int mostFrequent = array[0];
     int count = 1;
     int maxCount = 1;

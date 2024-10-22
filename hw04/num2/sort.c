@@ -54,13 +54,13 @@ bool tests() {
         return false;
     }
 
-    int collectionForTesting2[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-    quickSort(collectionForTesting2, 0, 9);
-    if (!(checkSorting(collectionForTesting2, 10) ? true : false)) {
+    int collectionForTesting2[1] = {1};
+    quickSort(collectionForTesting2, 0, 0);
+    if (!(checkSorting(collectionForTesting2, 1) ? true : false)) {
         return false;
     }
 
-    int collectionForTesting3[10] = {1, 3, 7, 2, 4, 6, 9, 1, 1, 100};
+    int collectionForTesting3[10] = {1, 3, -7, 2, 4, 6, -9, 1, 1, 100};
     quickSort(collectionForTesting3, 0, 9);
     if (!(checkSorting(collectionForTesting3, 10) ? true : false)) {
         return false;
