@@ -26,6 +26,31 @@ void printer(int array[]) {
     printf("\n");
 }
 
+void addition(int number1[], int number2[], int result[]){
+    int toRemember = 0;
+    for (int i = SIZE - 1; i >= 0; i--) {
+        int interResult = number1[i] + number2[i] + toRemember;
+        switch (interResult) {
+            case 0:
+                result[i] = 0;
+                break;
+            case 1:
+                result[i] = 1;
+                break;
+            case 2:
+                result[i] = 0;
+                toRemember = 1;
+                break;
+            case 3:
+                result[i] = 1;
+                toRemember = 1;
+                break;
+            default:
+                printf("Error\n");
+        }
+    }
+}
+
 int main(){
     int number1 = 0;
     int number2 = 0;
