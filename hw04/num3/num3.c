@@ -47,18 +47,17 @@ void displayContent(int numLines, Entry collection[]){
     printf("Конец\n");
 }
 //найти телефон по имени
-int searchTelephoneByName(const char name[], const int numLines, const Entry collection[]){
+int searchTelephoneByName(const char name[], const int numLines, Entry collection[]){
     for (int i = 0; i < numLines; ++i){
         if (strcmp(collection[i].name, name) == 0){
             return i;
         }
     }
     return -1;
-
 }
 
 //найти имя по телефону
-int searchNameByTelephone(const char phoneNumber[], const int numLines, const Entry collection[]){
+int searchNameByTelephone(const char phoneNumber[], const int numLines, Entry collection[]){
     for (int i = 0; i < numLines; ++i){
         if (strcmp(collection[i].number, phoneNumber) == 0){
             return i;
@@ -68,8 +67,14 @@ int searchNameByTelephone(const char phoneNumber[], const int numLines, const En
 
 }
 //сохранить файл
-void save(){
-
+void saveChanges(const char* fileName, const int numLines, Entry collection[]){
+    FILE *file;
+    file = fopen("C:\\CLionProjects\\RepoGit1\\hw04\\num3\\dataBase.txt", "w");
+    for (int i = 0; i < numLines; ++i) {
+        fprintf(file, "%s %s\n", collection[i].number, collection[i].name);
+    }
+    printf("Изменения успешно сохранены\n");
+    fclose(file);
 }
 
 void printCommands(void){
@@ -129,12 +134,12 @@ int main(void){
                 }
                 break;
             case 5:
+                saveChanges("dataBase.txt", numberOfLines, collection);
                 break;
             default:
                 printf("Такой команды не существует, введите номер снова\n");
                 break;
         }
     } while (command !=0);
-
     return 0;
 }
