@@ -25,7 +25,17 @@ int readEntries(const char* fileName, Entry collection[]){
 }
 
 // функция добавить запись
-void addEntry(){
+void addEntry(const char newName[], const char newPhoneNumber[], int* numLines, Entry collection[]){
+    if (*numLines < SIZE){
+        Entry newEntry = {{'\0'}, {'\0'}};
+        strcpy(newEntry.name, newName);
+        strcpy(newEntry.number, newPhoneNumber);
+        collection[*numLines] = newEntry;
+        ++(*numLines);
+        printf("Успешно, не забудьте сохранить изменения\n");
+    } else{
+        printf("Место для записи кончилось, в справочнике может храниться не более 100 записей\n");
+    }
 }
 
 //распечатать все записи
@@ -84,6 +94,13 @@ int main(void){
             case 0:
                 break;
             case 1:
+                printf("Введите имя контакта для записи\n");
+                char nameForAdding[SIZE] = {'\0'};
+                scanf("%s", nameForAdding);
+                printf("Введите номер телефона контакта %s для записи\n", nameForAdding);
+                char numberForAdding[SIZE] = {'\0'};
+                scanf("%s", numberForAdding);
+                addEntry(nameForAdding, numberForAdding, &numberOfLines, collection);
                 break;
             case 2:
                 displayContent(numberOfLines, collection);
