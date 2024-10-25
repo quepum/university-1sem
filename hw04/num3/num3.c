@@ -12,7 +12,7 @@ typedef struct Entry {
 int readEntries(const char* fileName, Entry collection[]){
     FILE *file;
     int numLines = 0;
-    file = fopen("C:\\CLionProjects\\RepoGit1\\hw04\\num3\\dataBase.txt", "r");
+    file = fopen(fileName, "r");
     char name[SIZE];
     char phoneNumber[SIZE];
     while(fscanf(file, "%s", name) != EOF && fscanf(file, "%s", phoneNumber) != EOF) {
@@ -69,9 +69,9 @@ int searchNameByTelephone(const char phoneNumber[], const int numLines, Entry co
 //сохранить файл
 void saveChanges(const char* fileName, const int numLines, Entry collection[]){
     FILE *file;
-    file = fopen("C:\\CLionProjects\\RepoGit1\\hw04\\num3\\dataBase.txt", "w");
+    file = fopen(fileName, "w");
     for (int i = 0; i < numLines; ++i) {
-        fprintf(file, "%s %s\n", collection[i].number, collection[i].name);
+        fprintf(file, "%s %s\n", collection[i].name, collection[i].number);
     }
     printf("Изменения успешно сохранены\n");
     fclose(file);
@@ -117,11 +117,10 @@ int main(void){
                 int resultOfSearchingByName = searchTelephoneByName(name, numberOfLines, collection);
                 if (resultOfSearchingByName != -1){
                     printf("%s\n", collection[resultOfSearchingByName].number);
-                    break;
                 } else{
                     printf("Такого имени нет в телефонном справочнике\n");
-                    break;
                 }
+                break;
             case 4:
                 printf("Введите номер телефона контакта:\n");
                 char phoneNumber[SIZE] = {'\0'};
@@ -137,9 +136,8 @@ int main(void){
                 saveChanges("dataBase.txt", numberOfLines, collection);
                 break;
             default:
-                printf("Такой команды не существует, введите номер снова\n");
-                break;
+                printf("Команды с таким номером не существует\n");
         }
-    } while (command !=0);
+    } while (command <= 5 && command > 0);
     return 0;
 }
