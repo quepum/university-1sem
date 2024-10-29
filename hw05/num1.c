@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <malloc.h>
+#include "stack.h"
+#include "testsForStack.h"
+#define SIZE 101
+
+bool checkSecondBracket(Element** head, char bracket){
+    return peek(*head) == bracket;
+}
+
+
+bool isBalanced(const char str[], int size){
+    Element* stack = NULL;
+
+    for (int i = 0; i < size; ++i){
+        switch (str[i]) {
+            case '(':
+            case '{':
+            case '[':
+                stack = push(stack, str[i]);
+                break;
+            case ')':
+                if (!checkSecondBracket(&stack, '(')){
+                    return false;
+                } else{
+                    stack = pop(stack);
+                }
+                break;
+            case '}':
+                if (!checkSecondBracket(&stack, '{')){
+                    return false;
+                } else{
+                    stack = pop(stack);
+                }
+                break;
+            case ']':
+                if (!checkSecondBracket(&stack, '[')){
+                    return false;
+                } else{
+                    stack = pop(stack);
+                }
+                break;
+        }
+    }
+    char res = peek(stack);
+    return res == '0';
+}
+
+bool tests(){
+    char testingString1[6] = "({[]})";
+    if (!isBalanced(testingString1, 6)){
+        return false;
+    }
+
+    char testingString2[6] = "([{]})";
+    if (isBalanced(testingString2, 6)){
+        return false;
+    }
+
+    char testingString3[10] = "[[][][]]]";
+    if (isBalanced(testingString3, 10)){
+        return false;
+    }
+
+    char testingString4[10] = "[[][]]]]";
+    if (isBalanced(testingString4, 10)){
+        return false;
+    }
+    return true;
+}
+
+int main(void){
+    if(!(testsForPopping() && testsForPush() && testingForPeeking() && tests())){
+        printf("Tests failed, something went wrong");
+        return 1;
+    } else {
+        printf("%s", "The tests were passed successfully\n");
+    }
+
+    char* string = malloc(sizeof(char) * SIZE);
+    printf("Enter a string no longer than 100 characters\n");
+    if (string == NULL) {
+        printf("ERROR: Out of memory\n");
+        return -1;
+    }
+    scanf("%s", string);
+
+    if (!isBalanced(string, SIZE)){
+        printf("INCORRECT\n");
+    } else{
+        printf("CORRECT");
+    }
+
+    free(string);
+    return 0;
+}
