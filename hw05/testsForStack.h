@@ -10,3 +10,6 @@ bool testsForPopping();
 
 //test that tests peek function
 bool testingForPeeking();
+
+//test that tests counting size function
+bool testingForSize();

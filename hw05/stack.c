@@ -3,7 +3,7 @@
 #include "stack.h"
 #include "testsForStack.h"
 
-Element* push(Element* head, char value){
+Element* push(Element* head, int value){
     Element* element = malloc(sizeof(Element)); //выделяем память для нового объекта
     element->value = value; //кладём в значение нового объекта значение котрое хотим добавить
     element->next = head; //переводим указатель следующего элемента на тот который был первым до
@@ -20,9 +20,9 @@ Element* pop(Element* head){
 
 }
 
-char peek(Element* head){
+int peek(Element* head){
     if (head == NULL){
-        return '0';
+        return -1;
     }
     return head->value; //возвращаем значение указателя head если стек не пустой
 }
@@ -30,8 +30,18 @@ char peek(Element* head){
 void show(Element* head){
     Element* current = head;
     while (current != NULL){
-        printf("%c\n", current->value);
+        printf("%d\n", current->value);
         current = current->next;
     }
     printf("\n");
+}
+
+int sizeStack(Element * head) {
+    Element * current = head;
+    int size = 0;
+    while (current != NULL) {
+        ++size;
+        current = current->next;
+    }
+    return size;
 }
