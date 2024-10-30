@@ -35,3 +35,7 @@ void show(Element* head){
     }
     printf("\n");
 }
+
+bool isEmpty(Element *head) {
+    return head == NULL;
+}

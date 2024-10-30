@@ -1,5 +1,7 @@
 #pragma one
 
+#include <stdbool.h>
+
 typedef struct Element {
     char value;
     struct Element* next;
@@ -16,3 +18,6 @@ char peek(Element* head);
 
 //function that outputs the current contents of the stack
 void show(Element* head);
+
+//function that reports if the stack is empty
+bool isEmpty(Element *head);
