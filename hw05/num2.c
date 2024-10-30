@@ -136,5 +136,6 @@ int main(void){
     int result = processingExpression(expression, &errorCode);
 
     (errorCode == -1) ? printf("ERROR\n") : printf("The result is %d", result);
+    free(expression);
     return 0;
 }
