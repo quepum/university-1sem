@@ -32,7 +32,7 @@ int main(void) {
         str[counter] = (char)fgetc(file);
         ++counter;
     }
-    char answer[SIZE];
+    char answer[SIZE] = {'\0'};
     checkRepeating(str, answer, counter);
     printf("%s", answer);
     fclose(file);
