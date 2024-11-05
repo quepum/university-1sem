@@ -143,10 +143,10 @@ bool testsAddition(){
 
 int main(){
     if (!(testsAddition() && testsIsBinary() && testsIsDecimal())){
-        printf("Тесты не пройдены, что-то пошло не так");
+        printf("Г’ГҐГ±ГІГ» Г­ГҐ ГЇГ°Г®Г©Г¤ГҐГ­Г», Г·ГІГ®-ГІГ® ГЇГ®ГёГ«Г® Г­ГҐ ГІГ ГЄ");
         return 1;
     } else {
-        printf("%s", "Тесты пройдены успешно\n");
+        printf("%s", "Г’ГҐГ±ГІГ» ГЇГ°Г®Г©Г¤ГҐГ­Г» ГіГ±ГЇГҐГёГ­Г®\n");
     }
 
     int number1 = 0;
@@ -160,12 +160,12 @@ int main(){
     fromDecimalToBinary(number1, binNumber1);
     fromDecimalToBinary(number2, binNumber2);
 
-    printf("Число %d в двоичном представлении:\n", number1);
+    printf("Г—ГЁГ±Г«Г® %d Гў Г¤ГўГ®ГЁГ·Г­Г®Г¬ ГЇГ°ГҐГ¤Г±ГІГ ГўГ«ГҐГ­ГЁГЁ:\n", number1);
     printer(binNumber1);
-    printf("Число %d в двоичном представлении:\n", number2);
+    printf("Г—ГЁГ±Г«Г® %d Гў Г¤ГўГ®ГЁГ·Г­Г®Г¬ ГЇГ°ГҐГ¤Г±ГІГ ГўГ«ГҐГ­ГЁГЁ:\n", number2);
     printer(binNumber2);
     addition(binNumber1, binNumber2, result);
-    printf("Сумма чисел в двоичном представлении:\n");
+    printf("Г‘ГіГ¬Г¬Г  Г·ГЁГ±ГҐГ« Гў Г¤ГўГ®ГЁГ·Г­Г®Г¬ ГЇГ°ГҐГ¤Г±ГІГ ГўГ«ГҐГ­ГЁГЁ:\n");
     printer(result);
 
     number1 = fromBinaryToDecimal(binNumber1);
