@@ -5,7 +5,7 @@
 
 #define TEST_SIZE 10
 
-int binarySearch(int inputCollection[], int left, int right, int number) {
+int binarySearch(const int inputCollection[], int left, int right, int number) {
     if (left <= right) {
         int index = (left + right) / 2;
         if (inputCollection[index] == number) {
@@ -138,29 +138,29 @@ int main(void) {
         scanf("%d%d", &n, &k);
     }
 
-    srand(time(0));
-    int *collectionForSEarching = malloc(n * sizeof(int));
+    srand(time(NULL));
+    int *collectionForSearching = malloc(n * sizeof(int));
     int *collectionOfNumbers = malloc(k * sizeof(int));
 
-    if (collectionOfNumbers == NULL || collectionForSEarching == NULL) {
+    if (collectionOfNumbers == NULL || collectionForSearching == NULL) {
         printf("ERROR: memory is not available!\n");
         return 1;
     }
-    generatorOfNumbers(collectionForSEarching, n);
+    generatorOfNumbers(collectionForSearching, n);
     generatorOfNumbers(collectionOfNumbers, k);
-    quickSort(collectionForSEarching, 0, n - 1);
+    quickSort(collectionForSearching, 0, n - 1);
 
     printf("Generated numbers:\n");
     printer(collectionOfNumbers, k);
     printf("Generated array:\n");
-    printer(collectionForSEarching, n);
+    printer(collectionForSearching, n);
 
     for (int i = 0; i < k; ++i) {
-        if (binarySearch(collectionForSEarching, 0, n - 1, collectionOfNumbers[i]) != -1) {
-            printf("%d in the array", collectionOfNumbers[i]);
+        if (binarySearch(collectionForSearching, 0, n - 1, collectionOfNumbers[i]) != -1) {
+            printf("%d in the array\n", collectionOfNumbers[i]);
         }
     }
     free(collectionOfNumbers);
-    free(collectionForSEarching);
+    free(collectionForSearching);
     return 0;
 }
