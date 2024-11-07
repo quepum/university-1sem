@@ -35,7 +35,6 @@ int main(void) {
                 int value = 0;
                 printf("Enter a value to remove:\n");
                 scanf("%d", &value);
-                //(!findPositionElement(list, value)) ? printf("No such element\n") : printf("Successfully!\n");
                 int position = findPositionElement(list, value);
                 if (position >= 0){
                     deleteElement(list, position);
