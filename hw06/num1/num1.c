@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include "list.h"
+#include "tests.h"
 
 void showCommands() {
     printf("0 - exit\n"
@@ -10,7 +10,11 @@ void showCommands() {
 }
 
 int main(void) {
-    //tests
+    if (!allTests()){
+        printf("Tests failed, something went wrong");
+        return -1;
+    }
+    printf("The tests were passed successfully\n");
     List *list = createList();
     int command = 0;
     do {
@@ -31,7 +35,14 @@ int main(void) {
                 int value = 0;
                 printf("Enter a value to remove:\n");
                 scanf("%d", &value);
-                (!findPositionElement(list, value)) ? printf("No such element\n") : printf("Successfully!\n");
+                //(!findPositionElement(list, value)) ? printf("No such element\n") : printf("Successfully!\n");
+                int position = findPositionElement(list, value);
+                if (position >= 0){
+                    deleteElement(list, position);
+                    printf("Successfully!\n");
+                } else{
+                    printf("No such element\n");
+                }
                 break;
             }
             case 3:
@@ -42,6 +53,6 @@ int main(void) {
                 printf("No such command\n");
                 break;
         }
-    } while (command != 0);
+    } while (command < 4 && command > 0);
     return 0;
 }
