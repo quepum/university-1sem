@@ -42,3 +42,24 @@ List *makeCircle(const int n){
     list->head = head;
     return list;
 }
+
+int counting(List *list, const int m){
+    Node *killer = list->head;
+    Node *corpse = list->head;
+    int i = 0;
+    while (killer->next->position != killer->position){
+        int counter = 1;
+        while (counter != m){
+            corpse = corpse->next;
+            ++counter;
+        }
+        while (killer->next->position != corpse->position){
+            killer = killer->next;
+        }
+        killer->next = corpse->next;
+        killer = corpse->next;
+        corpse = corpse->next;
+        ++i;
+    }
+    return killer->position;
+}
