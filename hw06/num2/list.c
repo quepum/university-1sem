@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <assert.h>
+#include <stdbool.h>
 #include "list.h"
 
 typedef struct Node {
@@ -12,20 +13,20 @@ typedef struct List {
     Node *head;
 } List;
 
-List *createList(){
+List *createList() {
     List *list = calloc(1, sizeof(List));
     assert(list != NULL);
     list->head = NULL;
     return list;
 }
 
-Node *createNode(){
+Node *createNode() {
     Node *node = calloc(1, sizeof(Node));
     assert(node != NULL);
     return node;
 }
 
-List *makeCircle(const int n){
+List *makeCircle(const int n) {
     List *list = createList();
     Node *head = NULL;
     for (int i = n; i > 0; --i) {
@@ -35,7 +36,7 @@ List *makeCircle(const int n){
         head = warrior;
     }
     Node *temp = head;
-    while (temp->next != NULL){
+    while (temp->next != NULL) {
         temp = temp->next;
     }
     temp->next = head;
@@ -43,17 +44,17 @@ List *makeCircle(const int n){
     return list;
 }
 
-int counting(List *list, const int m){
+int counting(List *list, const int m) {
     Node *killer = list->head;
     Node *corpse = list->head;
     int i = 0;
-    while (killer->next->position != killer->position){
+    while (killer->next->position != killer->position) {
         int counter = 1;
-        while (counter != m){
+        while (counter != m) {
             corpse = corpse->next;
             ++counter;
         }
-        while (killer->next->position != corpse->position){
+        while (killer->next->position != corpse->position) {
             killer = killer->next;
         }
         killer->next = corpse->next;
@@ -62,4 +63,17 @@ int counting(List *list, const int m){
         ++i;
     }
     return killer->position;
+}
+
+bool tests() {
+    List *testList1 = makeCircle(5);
+    if (counting(testList1, 2) != 3) {
+        return false;
+    }
+
+    List *testList2 = makeCircle(1);
+    if (counting(testList2, 10) != 1) {
+        return false;
+    }
+    return true;
 }
