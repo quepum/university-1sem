@@ -4,10 +4,9 @@
 #include "stack.h"
 #include "testsForStack.h"
 
-#define SIZE 101
+const int length = 101;
 
-
-int rangOfOperand(const char operand){
+int rangOfOperand(const char operand) {
     int rang = 0;
     switch (operand) {
         case '(':
@@ -27,50 +26,81 @@ int rangOfOperand(const char operand){
     return rang;
 }
 
-
-Element* fromInfixToPostfix(const char expression[]){
-    Element* draftVersion = NULL;
-    Element* auxiliary = NULL;
+Element *fromInfixToPostfix(const char expression[]) {
+    Element *draftVersion = NULL;
+    Element *auxiliary = NULL;
     int size = (int) strlen(expression);
 
-    for (int i = 0; i < size; ++i){
-        switch (expression[i]) {
-            case '+':
-            case '-':
-            case '*':
-            case '/':
-            case '(':
-                auxiliary = push(auxiliary, expression[i]);
-                printf("Кладу в стек операций %c\n", auxiliary->value);
-                int rangCurrentOperand = rangOfOperand(expression[i]);
-                while (rangOfOperand(auxiliary->value) > rangCurrentOperand){
-                    draftVersion = push(draftVersion,auxiliary->value);
+    for (int i = 0; i < size; ++i) {
+        if (expression[i] != ' ' || expression[i] != '\n') {
+            switch (expression[i]) {
+                case '+':
+                case '-':
+                case '*':
+                case '/': {
+                    int rangCurrentOperand = rangOfOperand(expression[i]);
+                    while (rangOfOperand(peek(auxiliary)) > rangCurrentOperand) {
+                        draftVersion = push(draftVersion, peek(auxiliary));
+                        auxiliary = pop(auxiliary);
+                    }
+                    auxiliary = push(auxiliary, expression[i]);
+                    break;
+                }
+                case '(':
+                    auxiliary = push(auxiliary, expression[i]);
+                    break;
+                case ')':
+                    while (peek(auxiliary) != '(') {
+                        draftVersion = push(draftVersion, peek(auxiliary));
+                        auxiliary = pop(auxiliary);
+                    }
                     auxiliary = pop(auxiliary);
-                }
-                break;
-            case ')':
-                while (peek(auxiliary) != '('){
-                    draftVersion = push(draftVersion, auxiliary->value);
-                    auxiliary = pop(auxiliary);
-                }
-                auxiliary = pop(auxiliary);
-                break;
-            default:
-                if (expression[i] != ' '){
-                    draftVersion = push(draftVersion, expression[i]);
-                    printf("Кладу в стек чисел %c\n", draftVersion->value);
-                }
-                break;
+                    break;
+                default:
+                    if (expression[i] != ' ') {
+                        draftVersion = push(draftVersion, expression[i]);
+                    }
+                    break;
+            }
         }
     }
-    show(auxiliary);
-    return draftVersion;
+    while (!isEmpty(auxiliary)) {
+        draftVersion = push(draftVersion, peek(auxiliary));
+        auxiliary = pop(auxiliary);
+    }
+
+    Element *answer = NULL;
+    while (!isEmpty(draftVersion)) {
+        answer = push(answer, peek(draftVersion));
+        draftVersion = pop(draftVersion);
+    }
+    return answer;
 }
 
-int main(){
+bool test() {
+    char *test = "(1 + 1) * 2 - (9 / 3)";
+    char *correctAnswer = "11+2*93/-";
+    Element *result = fromInfixToPostfix(test);
+    int i = 0;
+    while (result != NULL) {
+        if (result->value != correctAnswer[i]) {
+            return false;
+        }
+        result = result->next;
+        ++i;
+    }
+    return true;
+}
 
-    char* expression = malloc(sizeof(char) * SIZE);
-    if (expression == NULL){
+int main() {
+    if (!(test() && stackTests())) {
+        printf("Tests failed, something went wrong");
+        return -1;
+    }
+    printf("%s", "Tests were passed successfully\n");
+
+    char *expression = malloc(sizeof(char) * length);
+    if (expression == NULL) {
         printf("ERROR: out of memory");
         return -1;
     }
@@ -78,7 +108,7 @@ int main(){
     printf("Enter a mathematical expression in infix form\n");
     scanf("%[^\n]", expression);
 
-    Element* result = fromInfixToPostfix(expression);
+    Element *result = fromInfixToPostfix(expression);
     printf("Postfix form is\n");
     show(result);
 
