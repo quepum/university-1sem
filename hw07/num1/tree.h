@@ -11,4 +11,4 @@ char *findValueByKey(Dictionary *dictionary, int key);
 
 bool keySearcher(Node *root, int key);
 
-bool checkTheExistenceOfTheKey(Dictionary *dictionary, const int key);
+bool checkTheExistenceOfTheKey(Dictionary *dictionary, int key);

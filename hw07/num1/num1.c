@@ -31,11 +31,13 @@ int main(void) {
                 char *value = malloc(sizeof(char) * 256);
                 assert(value == NULL);
                 scanf("%s", value);
-            case 2:
+
+
+            case 2: //done
                 printf("Enter a key\n");
                 scanf("%d", &key);
                 printf("Key %d has value %s\n", key, findValueByKey(dictionary, key));
-            case 3:
+            case 3: //done
                 printf("Enter a key\n");
                 scanf("%d", &key);
                 if (checkTheExistenceOfTheKey(dictionary, key)) {
@@ -46,6 +48,8 @@ int main(void) {
             case 4:
                 printf("Enter a key\n");
                 scanf("%d", &key);
+
+
             default:
                 printf("Invalid input, try again\n");
                 break;
