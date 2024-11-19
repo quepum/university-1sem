@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <malloc.h>
-#include <assert.h>
 #include "tree.h"
 
 void showCommands() {
@@ -24,15 +23,17 @@ int main(void) {
         switch (command) {
             case 0:
                 break;
-            case 1:
+            case 1: //done
                 printf("Enter a key\n");
                 scanf("%d", &key);
                 printf("Enter a value you want to add\n");
                 char *value = malloc(sizeof(char) * 256);
-                assert(value == NULL);
+                if (value == NULL){
+                    printf("Error\n");
+                    return -1;
+                }
                 scanf("%s", value);
-
-
+                insert(dictionary, key, value);
             case 2: //done
                 printf("Enter a key\n");
                 scanf("%d", &key);

@@ -12,3 +12,5 @@ char *findValueByKey(Dictionary *dictionary, int key);
 bool keySearcher(Node *root, int key);
 
 bool checkTheExistenceOfTheKey(Dictionary *dictionary, int key);
+
+void insert(Dictionary *dictionary, int key, char *value);

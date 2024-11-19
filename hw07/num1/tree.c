@@ -64,6 +64,28 @@ bool checkTheExistenceOfTheKey(Dictionary *dictionary, const int key) {
     return keySearcher(dictionary->root, key);
 }
 
+void changeValue(Node *root, char *value) {
+    root->value = value;
+}
+
+Node *insertRecursion(Node **root, const int key, char *value, bool existenceOfKey) {
+    if (*root == NULL) {
+        if (existenceOfKey) {
+            changeValue(*root, value);
+        } else {
+            *root = createNode(key, value);
+        }
+    } else if (key <= (*root)->key) {
+        (*root)->rightChild = insertRecursion(&(*root)->rightChild, key, value, existenceOfKey);
+    } else {
+        (*root)->leftChild = insertRecursion(&(*root)->leftChild, key, value, existenceOfKey);
+    }
+    return *root;
+}
+
+void insert(Dictionary *dictionary, const int key, char *value) {
+    insertRecursion(&dictionary->root, key, value, checkTheExistenceOfTheKey(dictionary, key));
+}
 
 
 
