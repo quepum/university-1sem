@@ -12,13 +12,12 @@ void showCommands() {
            "4-remove key and its value\n");
 }
 
-
 int main(void) {
     //tests
 
     int command = 0;
     int key = 0;
-    Dictionary* dictionary = createDictionary();
+    Dictionary *dictionary = createDictionary();
     do {
         showCommands();
         scanf("%d", &command);
@@ -29,14 +28,21 @@ int main(void) {
                 printf("Enter a key\n");
                 scanf("%d", &key);
                 printf("Enter a value you want to add\n");
-
+                char *value = malloc(sizeof(char) * 256);
+                assert(value == NULL);
+                scanf("%s", value);
             case 2:
                 printf("Enter a key\n");
                 scanf("%d", &key);
+                printf("Key %d has value %s\n", key, findValueByKey(dictionary, key));
             case 3:
                 printf("Enter a key\n");
                 scanf("%d", &key);
-                
+                if (checkTheExistenceOfTheKey(dictionary, key)) {
+                    printf("The key %d is in the dictionary\n", key);
+                } else {
+                    printf("There's no such key\n");
+                }
             case 4:
                 printf("Enter a key\n");
                 scanf("%d", &key);
