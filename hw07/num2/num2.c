@@ -10,7 +10,9 @@ int main() {
     fscanf(file, "%[^\n]", expression);
     printf("%s\n", expression);
     Tree *tree = buildParseTree(expression);
+    printf("%d ", calculateExpression(tree));
 
     fclose(file);
+    deleteParseTree(tree);
     return 0;
 }

@@ -77,3 +77,21 @@ Tree *buildParseTree(char string[]) {
     temp->root = parser(string, &position);
     return temp;
 }
+
+int calculateExpressionRecursion(Node *root) {
+    if (root->operation == '+') {
+        return calculateExpressionRecursion(root->leftChild) + calculateExpressionRecursion(root->rightChild);
+    } else if (root->operation == '-') {
+        return calculateExpressionRecursion(root->leftChild) - calculateExpressionRecursion(root->rightChild);
+    } else if (root->operation == '*') {
+        return calculateExpressionRecursion(root->leftChild) * calculateExpressionRecursion(root->rightChild);
+    } else if (root->operation == '/') {
+        return calculateExpressionRecursion(root->leftChild) / calculateExpressionRecursion(root->rightChild);
+    } else {
+        return root->value;
+    }
+}
+
+int calculateExpression(Tree *tree) {
+    return calculateExpressionRecursion(tree->root);
+}
