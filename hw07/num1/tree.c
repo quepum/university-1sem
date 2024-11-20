@@ -15,7 +15,7 @@ struct Dictionary {
     Node *root;
 };
 
-Node *createNode(int key, char *value) {
+Node *createNode(const int key, char *value) {
     Node *newNode = calloc(1, sizeof(Node));
     assert(newNode != NULL && "Memory error\n");
     newNode->key = key;
@@ -32,7 +32,7 @@ Dictionary *createDictionary() {
     return dictionary;
 }
 
-Node *insertRecursion(Node **root, int key, char *value) {
+Node *insertRecursion(Node **root, const int key, char *value) {
     if (*root == NULL) {
         *root = createNode(key, value);
     } else if (key <= (*root)->key) {
@@ -43,11 +43,11 @@ Node *insertRecursion(Node **root, int key, char *value) {
     return *root;
 }
 
-void insert(Dictionary *dictionary, int key, char *value) {
+void insert(Dictionary *dictionary, const int key, char *value) {
     insertRecursion(&(dictionary->root), key, value);
 }
 
-bool search(Node *root, int key) {
+bool search(Node *root, const int key) {
     if (root == NULL) {
         return false;
     } else if (root->key == key) {
@@ -59,7 +59,7 @@ bool search(Node *root, int key) {
     }
 }
 
-char *getValueRecursion(Node *root, int key) {
+char *getValueRecursion(Node *root, const int key) {
     if (root == NULL) {
         return "NULL";
     } else if (root->key == key) {
@@ -71,11 +71,11 @@ char *getValueRecursion(Node *root, int key) {
     }
 }
 
-char *getValue(Dictionary *dictionary, int key) {
+char *getValue(Dictionary *dictionary, const int key) {
     return getValueRecursion(dictionary->root, key);
 }
 
-bool isKeyInTheDictionary(Dictionary *dictionary, int key) {
+bool isKeyInTheDictionary(Dictionary *dictionary, const int key) {
     if (search(dictionary->root, key)) {
         return true;
     }
@@ -91,7 +91,7 @@ Node *minValueNode(Node *node) {
     return current;
 }
 
-Node *deleteRecursion(Node *root, int key) {
+Node *deleteRecursion(Node *root, const int key) {
     if (root == NULL) {
         return NULL;
     } else if (key < root->key) {
@@ -119,7 +119,7 @@ Node *deleteRecursion(Node *root, int key) {
     }
 }
 
-void removeKey(Dictionary *dictionary, int key) {
+void removeKey(Dictionary *dictionary, const int key) {
     deleteRecursion(dictionary->root, key);
 }
 
@@ -136,7 +136,7 @@ void deleteDictionary(Dictionary *dictionary) {
     finalDeletion(dictionary->root);
 }
 
-Node *findNodeByKey(Node *root, int key) {
+Node *findNodeByKey(Node *root, const int key) {
     if (root->key == key) {
         return root;
     } else if (key > root->key) {
@@ -146,7 +146,7 @@ Node *findNodeByKey(Node *root, int key) {
     }
 }
 
-void changeData(Dictionary *dictionary, int key, char *newData) {
+void changeData(Dictionary *dictionary, const int key, char *newData) {
     Node *temp = findNodeByKey(dictionary->root, key);
     temp->value = newData;
 }
