@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <assert.h>
 #include "tree.h"
 
 typedef struct Node {
@@ -14,8 +15,9 @@ struct Dictionary {
     Node *root;
 };
 
-Node *getNewNode(int key, char *value) {
-    Node *newNode = malloc(sizeof(Node));
+Node *createNode(int key, char *value) {
+    Node *newNode = calloc(1, sizeof(Node));
+    assert(newNode != NULL && "Memory error\n");
     newNode->key = key;
     newNode->value = value;
     newNode->leftChild = NULL;
@@ -23,9 +25,16 @@ Node *getNewNode(int key, char *value) {
     return newNode;
 }
 
+Dictionary *createDictionary() {
+    Dictionary *dictionary = calloc(1, sizeof(Dictionary));
+    assert(dictionary != NULL && "Memory error\n");
+    dictionary->root = NULL;
+    return dictionary;
+}
+
 Node *insertRecursion(Node **root, int key, char *value) {
     if (*root == NULL) {
-        *root = getNewNode(key, value);
+        *root = createNode(key, value);
     } else if (key <= (*root)->key) {
         (*root)->leftChild = insertRecursion(&(*root)->leftChild, key, value);
     } else {
@@ -114,23 +123,17 @@ void removeKey(Dictionary *dictionary, int key) {
     deleteRecursion(dictionary->root, key);
 }
 
-Dictionary *createDictionary() {
-    Dictionary *tree = malloc(sizeof(Dictionary));
-    tree->root = NULL;
-    return tree;
-}
-
-void postorderRecursion(Node *root) {
+void finalDeletion(Node *root) {
     if (root == NULL) {
         return;
     }
-    postorderRecursion(root->leftChild);
-    postorderRecursion(root->rightChild);
+    finalDeletion(root->leftChild);
+    finalDeletion(root->rightChild);
     free(root);
 }
 
 void deleteDictionary(Dictionary *dictionary) {
-    postorderRecursion(dictionary->root);
+    finalDeletion(dictionary->root);
 }
 
 Node *findNodeByKey(Node *root, int key) {

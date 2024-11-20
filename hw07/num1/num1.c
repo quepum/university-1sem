@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <malloc.h>
+#include <assert.h>
 #include "tree.h"
 #include "tests.h"
 
@@ -29,10 +30,7 @@ int main(void) {
                 scanf("%d", &key);
                 printf("Enter a value you want to add\n");
                 char *value = malloc(sizeof(char) * 256);
-                if (value == NULL) {
-                    printf("Error\n");
-                    return -1;
-                }
+                assert(value != NULL && "Memory error\n");
                 scanf("%s", value);
                 if (isKeyInTheDictionary(dictionary, key)) {
                     changeData(dictionary, key, value);
