@@ -4,13 +4,12 @@
 
 int main() {
     //tests
-    FILE *file = fopen("inputData.txt", "r");
+    FILE *file = fopen("C:\\CLionProjects\\homeworks\\hw07\\num2\\inputData.txt", "r");
     assert(file != NULL && "No such file\n");
-    char buffer[100];
-    fscanf(file, "%[^\n]", buffer);
-
-    Tree *tree = buildTree(buffer);
-
+    char expression[100] = {'\0'};
+    fscanf(file, "%[^\n]", expression);
+    printf("%s\n", expression);
+    Tree *tree = buildParseTree(expression);
 
     fclose(file);
     return 0;
