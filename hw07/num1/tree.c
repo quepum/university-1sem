@@ -1,6 +1,7 @@
+#include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <stdbool.h>
+#include "tree.h"
 
 typedef struct Node {
     int key;
@@ -9,85 +10,140 @@ typedef struct Node {
     struct Node *rightChild;
 } Node;
 
-typedef struct Dictionary {
+struct Dictionary {
     Node *root;
-} Dictionary;
+};
 
-Node *createNode(const int key, char *value) {
-    Node *node = malloc(sizeof(Node));
-    assert(node != NULL);
-    node->key = key;
-    node->value = value;
-    node->leftChild = NULL;
-    node->rightChild = NULL;
-    return node;
+Node *getNewNode(int key, char *value) {
+    Node *newNode = malloc(sizeof(Node));
+    newNode->key = key;
+    newNode->value = value;
+    newNode->leftChild = NULL;
+    newNode->rightChild = NULL;
+    return newNode;
 }
 
-Dictionary *createDictionary() {
-    Dictionary *tree = malloc(sizeof(Dictionary));
-    assert(tree != NULL);
-    tree->root = NULL;
-    return tree;
-}
-
-char *getValue(const Node *root, const int key) {
-    if (root == NULL) {
-        return "NULL";
-    }
-    if (root->key == key) {
-        return root->value;
-    }
-    if (key <= root->key) {
-        return getValue(root->leftChild, key);
-    }
-    return getValue(root->rightChild, key);
-}
-
-char *findValueByKey(Dictionary *dictionary, const int key) {
-    return getValue(dictionary->root, key);
-}
-
-bool keySearcher(Node *root, const int key) {
-    if (root == NULL) {
-        return false;
-    }
-    if (root->key == key) {
-        return true;
-    }
-    if (key <= root->key) {
-        return getValue(root->leftChild, key);
-    }
-    return getValue(root->rightChild, key);
-}
-
-bool checkTheExistenceOfTheKey(Dictionary *dictionary, const int key) {
-    return keySearcher(dictionary->root, key);
-}
-
-void changeValue(Node *root, char *value) {
-    root->value = value;
-}
-
-Node *insertRecursion(Node **root, const int key, char *value, bool existenceOfKey) {
+Node *insertRecursion(Node **root, int key, char *value) {
     if (*root == NULL) {
-        if (existenceOfKey) {
-            changeValue(*root, value);
-        } else {
-            *root = createNode(key, value);
-        }
+        *root = getNewNode(key, value);
     } else if (key <= (*root)->key) {
-        (*root)->rightChild = insertRecursion(&(*root)->rightChild, key, value, existenceOfKey);
+        (*root)->leftChild = insertRecursion(&(*root)->leftChild, key, value);
     } else {
-        (*root)->leftChild = insertRecursion(&(*root)->leftChild, key, value, existenceOfKey);
+        (*root)->rightChild = insertRecursion(&(*root)->rightChild, key, value);
     }
     return *root;
 }
 
-void insert(Dictionary *dictionary, const int key, char *value) {
-    insertRecursion(&dictionary->root, key, value, checkTheExistenceOfTheKey(dictionary, key));
+void insert(Dictionary *dictionary, int key, char *value) {
+    insertRecursion(&(dictionary->root), key, value);
 }
 
+bool search(Node *root, int key) {
+    if (root == NULL) {
+        return false;
+    } else if (root->key == key) {
+        return true;
+    } else if (key <= root->key) {
+        return search(root->leftChild, key);
+    } else {
+        return search(root->rightChild, key);
+    }
+}
 
+char *getValueRecursion(Node *root, int key) {
+    if (root == NULL) {
+        return "NULL";
+    } else if (root->key == key) {
+        return root->value;
+    } else if (key <= root->key) {
+        return getValueRecursion(root->leftChild, key);
+    } else {
+        return getValueRecursion(root->rightChild, key);
+    }
+}
 
+char *getValue(Dictionary *dictionary, int key) {
+    return getValueRecursion(dictionary->root, key);
+}
 
+bool isKeyInTheDictionary(Dictionary *dictionary, int key) {
+    if (search(dictionary->root, key)) {
+        return true;
+    }
+    return false;
+}
 
+Node *minValueNode(Node *node) {
+    Node *current = node;
+
+    while (current && current->leftChild != NULL)
+        current = current->leftChild;
+
+    return current;
+}
+
+Node *deleteRecursion(Node *root, int key) {
+    if (root == NULL) {
+        return NULL;
+    } else if (key < root->key) {
+        root->leftChild = deleteRecursion(root->leftChild, key);
+    } else if (key > root->key) {
+        root->rightChild = deleteRecursion(root->rightChild, key);
+    } else {
+        if (root->leftChild == NULL && root->rightChild == NULL) {
+            free(root);
+            root = NULL;
+        } else if (root->leftChild == NULL) {
+            Node *temp = root;
+            root = root->rightChild;
+            free(temp);
+        } else if (root->rightChild == NULL) {
+            Node *temp = root;
+            root = root->leftChild;
+            free(temp);
+        } else {
+            Node *temp = minValueNode(root->rightChild);
+            root->key = temp->key;
+            root->rightChild = deleteRecursion(root->rightChild, key);
+        }
+        return root;
+    }
+}
+
+void removeKey(Dictionary *dictionary, int key) {
+    deleteRecursion(dictionary->root, key);
+}
+
+Dictionary *createDictionary() {
+    Dictionary *tree = malloc(sizeof(Dictionary));
+    tree->root = NULL;
+    return tree;
+}
+
+void postorderRecursion(Node *root) {
+    if (root == NULL) {
+        return;
+    }
+    postorderRecursion(root->leftChild);
+    postorderRecursion(root->rightChild);
+    free(root);
+}
+
+void deleteDictionary(Dictionary *dictionary) {
+    postorderRecursion(dictionary->root);
+}
+
+Node *findNodeByKey(Node *root, int key) {
+    if (root->key == key) {
+        return root;
+    } else if (key > root->key) {
+        return findNodeByKey(root->rightChild, key);
+    } else {
+        return findNodeByKey(root->leftChild, key);
+    }
+}
+
+void changeData(Dictionary *dictionary, int key, char *newData) {
+    Node *temp = findNodeByKey(dictionary->root, key);
+    temp->value = newData;
+}
