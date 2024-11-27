@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include "tree.h"
 
 void showCommands() {
     printf("MENU:\n");
-    printf("1. Add or Update value\n");
+    printf("1. Add or update value\n");
     printf("2. Get value by key\n");
     printf("3. Check if key exists\n");
     printf("4. Delete key\n");
@@ -11,6 +12,7 @@ void showCommands() {
 }
 
 int main() {
+    Node *root = NULL;
     int command = 0;
     char key[256] = {'\0'};
     char value[256] = {'\0'};
@@ -33,13 +35,11 @@ int main() {
                 printf("Enter key: ");
                 fgets(key, 256, stdin);
                 key[strcspn(key, "\n")] = 0;
-
                 break;
             case 3:
                 printf("Enter key: ");
                 fgets(key, 256, stdin);
                 key[strcspn(key, "\n")] = 0;
-
                 break;
             case 4:
                 printf("Enter key: ");
@@ -47,6 +47,7 @@ int main() {
                 key[strcspn(key, "\n")] = 0;
                 break;
             case 5:
+                freeAVL(root);
                 return 0;
             default:
                 printf("Invalid option. Please, try again.\n");

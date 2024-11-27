@@ -27,3 +27,10 @@ void freeNode(Node *node) {
         free(node);
     }
 }
+
+void freeAVL(Node *node) {
+    if (node == NULL) return;
+    freeAVL(node->leftChild);
+    freeAVL(node->rightChild);
+    freeNode(node);
+}
