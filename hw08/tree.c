@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct Node {
     const char *key;
@@ -28,8 +29,27 @@ void freeNode(Node *node) {
     }
 }
 
+Node *getValue(Node *node, const char *key) {
+    if (node == NULL) {
+        return NULL;
+    }
+    if (strcmp(key, node->key) == 0) {
+        return node;
+    }
+    if (strcmp(key, node->key) < 0) {
+        return getValue(node->leftChild, key);
+    }
+    return getValue(node->rightChild, key);
+}
+
+bool isKeyInTree(Node *node, const char *key) {
+    return getValue(node, key) != NULL;
+}
+
 void freeAVL(Node *node) {
-    if (node == NULL) return;
+    if (node == NULL) {
+        return;
+    }
     freeAVL(node->leftChild);
     freeAVL(node->rightChild);
     freeNode(node);

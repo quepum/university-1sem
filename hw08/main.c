@@ -35,11 +35,22 @@ int main() {
                 printf("Enter key: ");
                 fgets(key, 256, stdin);
                 key[strcspn(key, "\n")] = 0;
+                Node *node = getValue(root, key);
+                if (node) {
+                    printf("This key has value: %s\n", node->value);
+                } else {
+                    printf("Key not found.\n");
+                }
                 break;
             case 3:
                 printf("Enter key: ");
                 fgets(key, 256, stdin);
                 key[strcspn(key, "\n")] = 0;
+                if (isKeyInTree(root, key)) {
+                    printf("Key exists.\n");
+                } else {
+                    printf("Key does not exist.\n");
+                }
                 break;
             case 4:
                 printf("Enter key: ");
