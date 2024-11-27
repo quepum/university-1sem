@@ -30,6 +30,7 @@ int main() {
                 printf("Enter value: ");
                 fgets(value, 256, stdin);
                 value[strcspn(value, "\n")] = 0;
+                root = insert(root, key, value);
                 break;
             case 2:
                 printf("Enter key: ");
