@@ -119,6 +119,64 @@ bool isKeyInTree(Node *node, const char *key) {
     return getValue(node, key) != NULL;
 }
 
+Node *minValueNode(Node *node) {
+    Node *current = node;
+    while (current->leftChild != NULL)
+        current = current->leftChild;
+    return current;
+}
+
+Node *deleteNode(Node *root, const char *key) {
+    if (root == NULL) {
+        return root;
+    }
+    if (strcmp(key, root->key) < 0) {
+        root->leftChild = deleteNode(root->leftChild, key);
+
+    } else if (strcmp(key, root->key) > 0) {
+        root->rightChild = deleteNode(root->rightChild, key);
+    } else {
+        if ((root->leftChild == NULL) || (root->rightChild == NULL)) {
+            Node *temp = root->leftChild ? root->leftChild : root->rightChild;
+            if (temp == NULL) {
+                freeNode(root);
+                return NULL;
+            } else {
+                Node *oldRoot = root;
+                root = temp;
+                freeNode(oldRoot);
+            }
+        } else {
+            Node *temp = minValueNode(root->rightChild);
+            root->key = temp->key;
+            root->value = temp->value;
+            root->rightChild = deleteNode(root->rightChild, temp->key);
+        }
+    }
+
+    if (root == NULL) return root;
+
+    root->height = 1 + max(heightUpdater(root->leftChild), heightUpdater(root->rightChild));
+    int balance = getBalance(root);
+
+    if (balance > 1 && getBalance(root->leftChild) >= 0) {
+        return rotateRight(root);
+    }
+    if (balance > 1 && getBalance(root->leftChild) < 0) {
+        root->leftChild = rotateLeft(root->leftChild);
+        return rotateRight(root);
+    }
+    if (balance < -1 && getBalance(root->rightChild) <= 0) {
+        return rotateLeft(root);
+    }
+    if (balance < -1 && getBalance(root->rightChild) > 0) {
+        root->rightChild = rotateRight(root->rightChild);
+        return rotateLeft(root);
+    }
+
+    return root;
+}
+
 void freeAVL(Node *node) {
     if (node == NULL) {
         return;

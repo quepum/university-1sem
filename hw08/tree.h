@@ -10,8 +10,8 @@ typedef struct Node {
     int height;
 } Node;
 
-
 Node *insert(Node *node, const char *key, const char *value);
 Node *getValue(Node *node, const char *key);
 bool isKeyInTree(Node *node, const char *key);
+Node *deleteNode(Node *root, const char *key);
 void freeAVL(Node *node);

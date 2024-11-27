@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "tree.h"
+#include "tests.h"
 
 void showCommands() {
     printf("MENU:\n");
@@ -12,11 +13,17 @@ void showCommands() {
 }
 
 int main() {
+    if (!tests()) {
+        printf("Tests failed, something went wrong");
+        return -1;
+    }
+    printf("The tests were passed successfully!\n");
+
     Node *root = NULL;
     int command = 0;
     char key[256] = {'\0'};
     char value[256] = {'\0'};
-    while (1) {
+    while (true) {
         showCommands();
         printf("Choose an option: ");
         scanf("%d", &command);
@@ -57,6 +64,7 @@ int main() {
                 printf("Enter key: ");
                 fgets(key, 256, stdin);
                 key[strcspn(key, "\n")] = 0;
+                root = deleteNode(root, key);
                 break;
             case 5:
                 freeAVL(root);
