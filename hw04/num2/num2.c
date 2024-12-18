@@ -3,7 +3,7 @@
 #include "sort.h"
 #include "tests.h"
 
-int mostFrequentElement(const int array[], int length) {
+int getMostFrequentElement(const int array[], int length) {
     int mostFrequent = array[0];
     int count = 1;
     int maxCount = 1;
@@ -30,7 +30,7 @@ void printArray(int array[], const int size) {
 }
 
 int main() {
-    if (!allTests()) {
+    if (!runAllTests()) {
         printf("Tests failed, something went wrong");
         return 1;
     }
@@ -55,7 +55,7 @@ int main() {
     printf("Your collection is:\n");
     printArray(collection, size);
     quickSort(collection, 0, size - 1);
-    printf("The most frequent element in the array is: %d ", mostFrequentElement(collection, size));
+    printf("The most frequent element in the array is: %d ", getMostFrequentElement(collection, size));
 
     free(collection);
     return 0;

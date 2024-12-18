@@ -13,25 +13,25 @@ bool checkSorting(const int testingArray[], int size) {
 bool sortingTests() {
     int collectionForTesting1[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     quickSort(collectionForTesting1, 0, 9);
-    if (!(checkSorting(collectionForTesting1, 10) ? true : false)) {
+    if (!(checkSorting(collectionForTesting1, 10))) {
         return false;
     }
 
     int collectionForTesting2[1] = {1};
     quickSort(collectionForTesting2, 0, 0);
-    if (!(checkSorting(collectionForTesting2, 1) ? true : false)) {
+    if (!(checkSorting(collectionForTesting2, 1))) {
         return false;
     }
 
     int collectionForTesting3[10] = {1, 3, -7, 2, 4, 6, -9, 1, 1, 100};
     quickSort(collectionForTesting3, 0, 9);
-    if (!(checkSorting(collectionForTesting3, 10) ? true : false)) {
+    if (!(checkSorting(collectionForTesting3, 10))) {
         return false;
     }
 
     int collectionForTesting4[10] = {100, 3, 7, 2, 4, 6, 9, 1, 1, 0};
     quickSort(collectionForTesting4, 0, 9);
-    if (!(checkSorting(collectionForTesting4, 10) ? true : false)) {
+    if (!(checkSorting(collectionForTesting4, 10))) {
         return false;
     }
     return true;
@@ -58,7 +58,7 @@ bool testWithoutRepeats() {
     return mostFrequentElement(test, 10) == 15;
 }
 
-bool allTests() {
+bool runAllTests() {
     return (sortingTests() && testNormalSituation() && testWithIdenticalElements() && testWithOneElement() &&
             testWithoutRepeats());
 }
