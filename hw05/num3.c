@@ -74,6 +74,8 @@ Element *fromInfixToPostfix(const char expression[]) {
         answer = push(answer, peek(draftVersion));
         pop(&draftVersion);
     }
+    removeStack(&auxiliary);
+    removeStack(&draftVersion);
     return answer;
 }
 

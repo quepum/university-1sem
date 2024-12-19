@@ -22,3 +22,5 @@ void show(Element *head);
 // function that reports if the stack is empty
 bool isEmpty(Element *head);
 
+// function that deletes the stack
+void removeStack(Element **head);
