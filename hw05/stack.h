@@ -11,7 +11,7 @@ typedef struct Element {
 Element *push(Element *head, char value);
 
 // function that removes the first element of the stack
-Element *pop(Element *head);
+char pop(Element **head);
 
 // function that returns the value of the first element in the stack
 char peek(Element *head);
@@ -22,5 +22,3 @@ void show(Element *head);
 // function that reports if the stack is empty
 bool isEmpty(Element *head);
 
-// function that deletes the stack
-void removeStack(Element **head);

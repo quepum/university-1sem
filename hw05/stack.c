@@ -11,13 +11,15 @@ Element *push(Element *head, char value) {
     return element; //возвращаем указатель на новый созданный объект
 }
 
-Element *pop(Element *head) {
-    if (head == NULL) {
-        return head;
+char pop(Element **head) {
+    if (*head == NULL) {
+        return 0;
     }
-    Element *elementNext = head->next; // если head есть, то этот указатель равен адресу след объекта
-    free(head);
-    return elementNext;
+    char element = (*head)->value;
+    Element *newElement = (*head)->next;
+    free(*head);
+    (*head) = newElement;
+    return element;
 }
 
 char peek(Element *head) {

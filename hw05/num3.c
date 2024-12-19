@@ -41,7 +41,7 @@ Element *fromInfixToPostfix(const char expression[]) {
                     int rangCurrentOperand = rangOfOperand(expression[i]);
                     while (rangOfOperand(peek(auxiliary)) > rangCurrentOperand) {
                         draftVersion = push(draftVersion, peek(auxiliary));
-                        auxiliary = pop(auxiliary);
+                        pop(&auxiliary);
                     }
                     auxiliary = push(auxiliary, expression[i]);
                     break;
@@ -52,9 +52,9 @@ Element *fromInfixToPostfix(const char expression[]) {
                 case ')':
                     while (peek(auxiliary) != '(') {
                         draftVersion = push(draftVersion, peek(auxiliary));
-                        auxiliary = pop(auxiliary);
+                        pop(&auxiliary);
                     }
-                    auxiliary = pop(auxiliary);
+                    pop(&auxiliary);
                     break;
                 default:
                     if (expression[i] != ' ') {
@@ -66,16 +66,14 @@ Element *fromInfixToPostfix(const char expression[]) {
     }
     while (!isEmpty(auxiliary)) {
         draftVersion = push(draftVersion, peek(auxiliary));
-        auxiliary = pop(auxiliary);
+        pop(&auxiliary);
     }
 
     Element *answer = NULL;
     while (!isEmpty(draftVersion)) {
         answer = push(answer, peek(draftVersion));
-        draftVersion = pop(draftVersion);
+        pop(&draftVersion);
     }
-    removeStack(&draftVersion);
-    removeStack(&auxiliary);
     return answer;
 }
 

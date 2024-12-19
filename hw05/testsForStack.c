@@ -23,7 +23,7 @@ bool testsForPushing() {
 
 bool testsForPopping() {
     Element *testHead1 = NULL;
-    testHead1 = pop(testHead1);
+    pop(&testHead1);
     if (testHead1 != NULL) {
         printf("Error with popping empty stack\n");
         return false;
@@ -33,7 +33,7 @@ bool testsForPopping() {
     testHead2 = push(testHead2, 5);
     testHead2 = push(testHead2, 'e');
     testHead2 = push(testHead2, 'a');
-    testHead2 = pop(testHead2);
+    pop(&testHead2);
     if (testHead2->value != 'e') {
         printf("Error with popping nonempty stack\n");
         return false;
@@ -52,7 +52,7 @@ bool testingForPeeking() {
     testHead2 = push(testHead2, '5');
     testHead2 = push(testHead2, 'e');
     testHead2 = push(testHead2, 'a');
-    testHead2 = pop(testHead2);
+    pop(&testHead2);
     if (peek(testHead2) != 'e') {
         printf("Error with peeking nonempty stack\n");
         return false;
