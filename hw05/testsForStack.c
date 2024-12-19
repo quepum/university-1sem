@@ -18,6 +18,8 @@ bool testsForPushing() {
         printf("Error with pushing element\n");
         return false;
     }
+    removeStack(&testHead1);
+    removeStack(&testHead2);
     return true;
 }
 
@@ -38,6 +40,8 @@ bool testsForPopping() {
         printf("Error with popping nonempty stack\n");
         return false;
     }
+    removeStack(&testHead1);
+    removeStack(&testHead2);
     return true;
 }
 
@@ -57,6 +61,8 @@ bool testingForPeeking() {
         printf("Error with peeking nonempty stack\n");
         return false;
     }
+    removeStack(&testHead1);
+    removeStack(&testHead2);
     return true;
 }
 
