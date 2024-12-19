@@ -140,7 +140,6 @@ int main(void) {
     } else {
         printf("The result is %d", result);
     }
-
     free(expression);
     return 0;
 }
