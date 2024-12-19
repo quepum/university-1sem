@@ -11,9 +11,9 @@ bool testsForPushing() {
     }
 
     Element *testHead2 = NULL;
-    testHead2 = push(testHead1, 5);
-    testHead2 = push(testHead1, '0');
-    testHead2 = push(testHead1, 'a');
+    testHead2 = push(testHead2, '5');
+    testHead2 = push(testHead2, '0');
+    testHead2 = push(testHead2, 'a');
     if (testHead2->value != 'a') {
         printf("Error with pushing element\n");
         return false;

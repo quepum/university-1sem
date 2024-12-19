@@ -74,12 +74,12 @@ Element *fromInfixToPostfix(const char expression[]) {
         answer = push(answer, peek(draftVersion));
         draftVersion = pop(draftVersion);
     }
+    removeStack(&draftVersion);
+    removeStack(&auxiliary);
     return answer;
 }
 
-bool test() {
-    char *test = "(1 + 1) * 2 - (9 / 3)";
-    char *correctAnswer = "11+2*93/-";
+bool checkAnswer(const char *test, const char *correctAnswer) {
     Element *result = fromInfixToPostfix(test);
     int i = 0;
     while (result != NULL) {
@@ -88,6 +88,27 @@ bool test() {
         }
         result = result->next;
         ++i;
+    }
+    return true;
+}
+
+bool test() {
+    char *test1 = "(1 + 1) * 2 - (9 / 3)";
+    char *correctAnswer1 = "11+2*93/-";
+    if (!checkAnswer(test1, correctAnswer1)) {
+        return false;
+    }
+
+    char *test2 = "2 + 3 * 4";
+    char *correctAnswer2 = "234*+";
+    if (!checkAnswer(test2, correctAnswer2)) {
+        return false;
+    }
+
+    char *test3 = "(( 2 + 3 ) * 4 - 5 ) / 6";
+    char *correctAnswer3 = "23+4*5-6/";
+    if (!checkAnswer(test3, correctAnswer3)) {
+        return false;
     }
     return true;
 }

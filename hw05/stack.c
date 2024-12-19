@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "stack.h"
-#include "testsForStack.h"
 
 Element *push(Element *head, char value) {
     Element *element = malloc(sizeof(Element)); //выделяем память для нового объекта
+    assert(element != NULL);
     element->value = value; //кладём в значение нового объекта значение котрое хотим добавить
     element->next = head; //переводим указатель следующего элемента на тот который был первым до
     return element; //возвращаем указатель на новый созданный объект
@@ -37,4 +38,16 @@ void show(Element *head) {
 
 bool isEmpty(Element *head) {
     return head == NULL;
+}
+
+void removeStack(Element **head) {
+    Element *current = *head;
+    Element *temp;
+
+    while (current != NULL) {
+        temp = current;
+        current = current->next;
+        free(temp);
+    }
+    *head = NULL;
 }

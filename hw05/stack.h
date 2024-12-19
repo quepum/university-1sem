@@ -1,4 +1,4 @@
-#pragma one
+#pragma once
 
 #include <stdbool.h>
 
@@ -7,17 +7,20 @@ typedef struct Element {
     struct Element *next;
 } Element;
 
-//function that adds a new element to the stack
+// function that adds a new element to the stack
 Element *push(Element *head, char value);
 
-//function that removes the first element of the stack
+// function that removes the first element of the stack
 Element *pop(Element *head);
 
-//function that returns the value of the first element in the stack
+// function that returns the value of the first element in the stack
 char peek(Element *head);
 
-//function that outputs the current contents of the stack
+// function that outputs the current contents of the stack
 void show(Element *head);
 
-//function that reports if the stack is empty
+// function that reports if the stack is empty
 bool isEmpty(Element *head);
+
+// function that deletes the stack
+void removeStack(Element **head);
