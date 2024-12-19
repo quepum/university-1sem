@@ -6,7 +6,7 @@ typedef struct Element {
 } Element;
 
 // function that adds a new element to the stack
-Element *push(Element *head, char value);
+char push(Element **head, char value);
 
 // function that removes the first element of the stack
 char pop(Element **head);

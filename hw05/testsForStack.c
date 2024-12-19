@@ -4,20 +4,22 @@
 
 bool testsForPush() {
     Element *testHead1 = NULL;
-    testHead1 = push(testHead1, '5');
+    push(&testHead1, '5');
     if (testHead1->value != '5') {
         printf("Error with pushing 1st element\n");
         return false;
     }
 
     Element *testHead2 = NULL;
-    testHead2 = push(testHead2, '5');
-    testHead2 = push(testHead2, '0');
-    testHead2 = push(testHead2, 'a');
+    push(&testHead2, '5');
+    push(&testHead2, '0');
+    push(&testHead2, 'a');
     if (testHead2->value != 'a') {
         printf("Error with pushing element\n");
         return false;
     }
+    freeStack(testHead1);
+    freeStack(testHead2);
     return true;
 }
 
@@ -30,14 +32,16 @@ bool testsForPopping() {
     }
 
     Element *testHead2 = NULL;
-    testHead2 = push(testHead2, '6');
-    testHead2 = push(testHead2, 'e');
-    testHead2 = push(testHead2, 'a');
+    push(&testHead2, '6');
+    push(&testHead2, 'e');
+    push(&testHead2, 'a');
     pop(&testHead2);
     if (testHead2->value != 'e') {
         printf("Error with popping nonempty stack\n");
         return false;
     }
+    freeStack(testHead1);
+    freeStack(testHead2);
     return true;
 }
 
@@ -49,14 +53,16 @@ bool testsForPeeking() {
     }
 
     Element *testHead2 = NULL;
-    testHead2 = push(testHead2, '5');
-    testHead2 = push(testHead2, 'e');
-    testHead2 = push(testHead2, 'a');
+    push(&testHead2, '5');
+    push(&testHead2, 'e');
+    push(&testHead2, 'a');
     pop(&testHead2);
     if (peek(testHead2) != 'e') {
         printf("Error with peeking nonempty stack\n");
         return false;
     }
+    freeStack(testHead1);
+    freeStack(testHead2);
     return true;
 }
 

@@ -15,7 +15,7 @@ bool isBalanced(const char str[], int size) {
             case '(':
             case '{':
             case '[':
-                stack = push(stack, str[i]);
+                push(&stack, str[i]);
                 break;
             case ')':
                 if (!checkSecondBracket(&stack, '(')) {
