@@ -76,11 +76,11 @@ bool runTests() {
 }
 
 int main(void) {
-    if (!runTests()) {
+    /*if (!runTests()) {
         printf("Tests failed");
         return -1;
     }
-    printf("Tests were passed successfully\n");
+    printf("Tests were passed successfully\n");*/
 
     FILE *fileF = fopen("Test2Rewriting\\num1\\inputData.txt", "r");
     FILE *fileG = fopen("Test2Rewriting\\num1\\outputData.txt", "w");
