@@ -35,20 +35,22 @@ bool fromFile(FILE *inputFile, FILE *outputFile, const int a, const int b) {
 }
 
 bool isCorrectAnswer(FILE *file, const int correctAnswer[], const int size) {
-    for (int i = 0; i < size; ++i) {
+    int i = 0;
+    while (i < size) {
         int element = 0;
         fscanf(file, "%d", &element);
         if (correctAnswer[i] != element) {
             return false;
         }
+        ++i;
     }
     return true;
 }
 
 bool runTests() {
-    FILE *fileF1 = fopen("C:\\CLionProjects\\homeworks\\Test2Rewriting\\num1\\tests\\outputData1Test.txt", "r");
+    FILE *fileF1 = fopen("Test2Rewriting\\num1\\tests\\outputData1Test.txt", "r");
     int correctAnswer1[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    FILE *fileG1 = fopen("C:\\CLionProjects\\homeworks\\Test2Rewriting\\num1\\tests\\outputData1Test.txt", "w");
+    FILE *fileG1 = fopen("Test2Rewriting\\num1\\tests\\outputData1Test.txt", "w");
     fromFile(fileF1, fileG1, 3, 8);
     if (!isCorrectAnswer(fileG1, correctAnswer1, 10)) {
         fclose(fileF1);
@@ -58,9 +60,9 @@ bool runTests() {
     fclose(fileF1);
     fclose(fileG1);
 
-    /*FILE *fileF2 = fopen("Test2Rewriting/num1/tests/inputData2Test.txt", "r");
+    /*FILE *fileF2 = fopen("Test2Rewriting\\num1\\tests\\inputData2Test.txt", "r");
     int correctAnswer2[] = {4, 3, 2, 1, 10, 9, 8, 7, 6, 5};
-    FILE *fileG2 = fopen("Test2Rewriting/num1/tests/outputData2Test.txt", "w");
+    FILE *fileG2 = fopen("Test2Rewriting\\num1\\tests\\outputData2Test.txt", "w");
     fromFile(fileF2, fileG1, 5, 10);
     if (!isCorrectAnswer(fileG2, correctAnswer2, 10)) {
         fclose(fileF1);
@@ -74,14 +76,14 @@ bool runTests() {
 }
 
 int main(void) {
-    /*if (!runTests()) {
+    if (!runTests()) {
         printf("Tests failed");
         return -1;
     }
-    printf("Tests were passed successfully\n");*/
+    printf("Tests were passed successfully\n");
 
-    FILE *fileF = fopen("C:\\CLionProjects\\homeworks\\Test2Rewriting\\num1\\inputData.txt", "r");
-    FILE *fileG = fopen("C:\\CLionProjects\\homeworks\\Test2Rewriting\\num1\\outputData.txt", "w");
+    FILE *fileF = fopen("Test2Rewriting\\num1\\inputData.txt", "r");
+    FILE *fileG = fopen("Test2Rewriting\\num1\\outputData.txt", "w");
     if (fileF == NULL || fileG == NULL) {
         printf("File does not exist");
         return -1;
