@@ -35,7 +35,7 @@ int main(void) {
     int sortByName = 0;
     printf("Sort by name (1) or by phone number(0)?\n");
     scanf("%d", &sortByName);
-    readEntries(&head, "C:\\CLionProjects\\homeworks\\hw06\\num3\\inputData.txt", &errorCode);
+    readEntries(&head, "hw06\\num3\\inputData.txt", &errorCode);
     if (errorCode == -1) {
         printf("Error: file doesn't exist");
         return -1;
