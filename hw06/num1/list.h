@@ -2,7 +2,6 @@
 
 typedef struct Node Node;
 typedef struct List List;
-typedef Node *Position;
 
 // function that create new list
 List *createList(int *errorCode);

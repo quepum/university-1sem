@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <malloc.h>
-#include <assert.h>
 #include "list.h"
 
 typedef struct Node {
@@ -71,8 +70,8 @@ void deleteElement(List *list, int position) {
         temp = temp->next;
     }
     Node *temp2 = temp->next;
-    if (temp2 == NULL) {
-        free(temp);
+    if (temp == NULL || temp->next == NULL) {
+        return;
     }
     temp->next = temp2->next;
     free(temp2);
@@ -81,6 +80,9 @@ void deleteElement(List *list, int position) {
 int findPositionElement(List *list, int value) {
     Node *temp = list->head;
     int position = 0;
+    if (temp == NULL) {
+        return -1;
+    }
     while (temp->value != value) {
         ++position;
         temp = temp->next;
