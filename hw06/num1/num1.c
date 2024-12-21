@@ -10,24 +10,36 @@ void showCommands() {
 }
 
 int main(void) {
-    if (!allTests()){
+    if (!runAllTests()) {
         printf("Tests failed, something went wrong");
         return -1;
     }
     printf("The tests were passed successfully\n");
-    List *list = createList();
+
+    int errorCode = 0;
+    List *list = createList(&errorCode);
+    if (errorCode == -1) {
+        printf("Error: out of memory\n");
+        return -1;
+    }
     int command = 0;
+    showCommands();
     do {
-        showCommands();
         scanf("%d", &command);
         switch (command) {
             case 0:
+                removeList(list);
                 return 0;
             case 1: {
                 int value = 0;
                 printf("Enter a value to add:\n");
                 scanf("%d", &value);
-                orderInsert(list, value);
+                addNewItemToList(list, value, &errorCode);
+                if (errorCode == -1) {
+                    printf("Error: out of memory\n");
+                    removeList(list);
+                    return -1;
+                }
                 printf("Successfully!\n");
                 break;
             }
@@ -36,11 +48,11 @@ int main(void) {
                 printf("Enter a value to remove:\n");
                 scanf("%d", &value);
                 int position = findPositionElement(list, value);
-                if (position >= 0){
+                if (position >= 0) {
                     deleteElement(list, position);
                     printf("Successfully!\n");
-                } else{
-                    printf("No such element\n");
+                } else {
+                    printf("No such element in your list\n");
                 }
                 break;
             }
@@ -49,9 +61,9 @@ int main(void) {
                 printList(list);
                 break;
             default:
-                printf("No such command\n");
+                printf("Wrong command, try again\n");
                 break;
         }
-    } while (command < 4 && command > 0);
+    } while (command != 0);
     return 0;
 }

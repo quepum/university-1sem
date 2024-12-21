@@ -2,4 +2,5 @@
 
 #include <stdbool.h>
 
-bool allTests();
+// some tests for list
+bool runAllTests();
