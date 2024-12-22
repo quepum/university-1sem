@@ -1,5 +1,6 @@
 #include "list.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 List *createNewList() {
     List *list = (List *) malloc(sizeof(List));
@@ -25,11 +26,12 @@ void removeList(List *list) {
     free(list);
 }
 
-void addElement(List *list, void *data) {
+void addElement(List *list, void *data, int *errorCode) {
     ListNode *newNode = (ListNode *) malloc(sizeof(ListNode));
     if (newNode == NULL) {
-        perror("Memory error");
-        exit(EXIT_FAILURE);
+        *errorCode = -1;
+        printf("Memory error");
+        return;
     }
     newNode->data = data;
     newNode->next = list->head;

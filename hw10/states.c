@@ -6,10 +6,11 @@
 #define INFINITY_DISTANCE 1000000
 
 bool readInputData(const char *filename, int *numCities, int *numRoads, Road roads[], int *numStates, int capitals[],
-                   int *numCapitals) {
+                   int *numCapitals, int *errorCode) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
-        perror("Error: no such file");
+        *errorCode = -1;
+        printf("Error: no such file");
         return false;
     }
 
@@ -57,26 +58,31 @@ void initializeCities(City cities[], int numCities) {
     }
 }
 
-void initializeStates(State states[], int numStates, const int capitals[], City cities[]) {
+void initializeStates(State states[], int numStates, const int capitals[], City cities[], int *errorCode) {
     for (int i = 0; i < numStates; i++) {
         states[i].id = i + 1;
         states[i].cities = createNewList();
         int *capitalId = calloc(1, sizeof(int));
         if (capitalId == NULL) {
-            perror("Memory error");
-            exit(EXIT_FAILURE);
+            *errorCode = -1;
+            printf("Memory error");
+            return;
         }
         *capitalId = capitals[i];
-        addElement(states[i].cities, capitalId);
+        addElement(states[i].cities, capitalId, errorCode);
+        if (*errorCode == -1) {
+            return;
+        }
         cities[capitals[i]].state = states[i].id;
     }
 }
 
-void assignCitiesToStates(State states[], int numStates, City cities[], Road roads[], int numRoads, int numCities) {
+void assignCitiesToStates(State states[], int numStates, City cities[], Road roads[], int numRoads, int numCities,
+                          int *errorCode) {
     int assignedCities = numStates;
     while (assignedCities < numCities) {
         for (int i = 1; i <= numStates; i++) {
-            int minDistance = INT_MAX;
+            int minDistance = INFINITY_DISTANCE;
             int closestCityId = -1;
 
             for (int j = 0; j < numCities; j++) {
@@ -91,12 +97,16 @@ void assignCitiesToStates(State states[], int numStates, City cities[], Road roa
             if (closestCityId != -1) {
                 int *cityId = calloc(1, sizeof(int));
                 if (cityId == NULL) {
-                    perror("Memory error");
-                    exit(EXIT_FAILURE);
+                    *errorCode = 1;
+                    printf("Memory error");
+                    return;
                 }
 
                 *cityId = closestCityId;
-                addElement(states[i - 1].cities, cityId);
+                addElement(states[i - 1].cities, cityId, errorCode);
+                if (*errorCode == -1) {
+                    return;
+                }
                 cities[closestCityId].state = states[i - 1].id;
                 assignedCities++;
                 if (assignedCities == numCities) {

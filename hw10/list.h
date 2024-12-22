@@ -16,4 +16,4 @@ List *createNewList();
 void removeList(List *list);
 
 // function that adds new element to list
-void addElement(List *list, void *data);
+void addElement(List *list, void *data, int *errorCode);
