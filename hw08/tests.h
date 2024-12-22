@@ -2,4 +2,5 @@
 
 #include <stdbool.h>
 
+//some tests
 bool tests();

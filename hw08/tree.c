@@ -2,17 +2,10 @@
 #include <malloc.h>
 #include <string.h>
 #include <stdbool.h>
-
-typedef struct Node {
-    const char *key;
-    const char *value;
-    struct Node *leftChild;
-    struct Node *rightChild;
-    int height;
-} Node;
+#include "tree.h"
 
 Node *createNewNode(const char *key, const char *value) {
-    Node *node = (Node *)malloc(sizeof(Node));
+    Node *node = (Node *) malloc(sizeof(Node));
     node->key = strdup(key);
     node->value = strdup(value);
     node->leftChild = NULL;
@@ -23,8 +16,8 @@ Node *createNewNode(const char *key, const char *value) {
 
 void freeNode(Node *node) {
     if (node) {
-        free((void *)node->key);
-        free((void *)node->value);
+        free((void *) node->key);
+        free((void *) node->value);
         free(node);
     }
 }
