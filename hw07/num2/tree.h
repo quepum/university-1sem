@@ -3,8 +3,11 @@
 typedef struct Node Node;
 typedef struct Tree Tree;
 
-Tree *buildParseTree(char string[]);
+// function that builds a tree based on the expression
+Tree *buildParseTree(char string[], int *errorCode);
 
+// function that evaluates expression by traversing the tree
 int calculateExpression(Tree *tree);
 
-void deleteParseTree(Tree *ParseTree);
+// function that deletes tree
+void removeTree(Tree *tree);

@@ -1,18 +1,38 @@
 #include <stdio.h>
-#include <assert.h>
 #include "tree.h"
+#include "tests.h"
 
 int main() {
-    //tests
+    if (!runTests()) {
+        printf("Tests failed");
+        return -1;
+    }
+    printf("Tests were passed successfully\n");
+
     FILE *file = fopen("C:\\CLionProjects\\homeworks\\hw07\\num2\\inputData.txt", "r");
-    assert(file != NULL && "No such file\n");
+    if (file == NULL) {
+        printf("No such file");
+        return -1;
+    }
+
     char expression[100] = {'\0'};
     fscanf(file, "%[^\n]", expression);
     printf("%s\n", expression);
-    Tree *tree = buildParseTree(expression);
-    printf("%d ", calculateExpression(tree));
 
+    int errorCode = 0;
+    Tree *tree = buildParseTree(expression, &errorCode);
+    if (errorCode == -1) {
+        printf("Memory error");
+        return -1;
+    }
+
+    int result = calculateExpression(tree);
+    if (errorCode == -1) {
+        return -1;
+    }
+
+    printf("%d ", result);
     fclose(file);
-    deleteParseTree(tree);
+    removeTree(tree);
     return 0;
 }
