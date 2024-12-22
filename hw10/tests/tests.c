@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include "states.h"
-#include "list.h"
+#include "../list.h"
+#include "../states.h"
 
-int main(void) {
+bool test1() {
     int numCities = 0;
     int numRoads = 0;
     int numStates = 0;
@@ -10,7 +10,8 @@ int main(void) {
     Road roads[MAX_ROADS] = {0};
     int capitals[MAX_CITIES] = {0};
 
-    if (!readInputData("C:\\CLionProjects\\homeworks\\hw10\\inputData.txt", &numCities, &numRoads, roads, &numStates,
+    if (!readInputData("C:\\CLionProjects\\homeworks\\hw10\\tests\\inputTest1.txt", &numCities, &numRoads, roads,
+                       &numStates,
                        capitals, &numCapitals)) {
         printf("Memory error");
         return -1;
@@ -24,10 +25,17 @@ int main(void) {
 
     assignCitiesToStates(states, numStates, cities, roads, numRoads, numCities);
 
-    printResults(states, numStates);
     for (int i = 0; i < numStates; i++) {
         removeList(states[i].cities);
     }
 
-    return 0;
+    return true;
+}
+
+bool test2() {
+    return true;
+}
+
+bool runAllTests() {
+    return test1() && test2();
 }
