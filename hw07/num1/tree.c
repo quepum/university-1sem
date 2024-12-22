@@ -84,7 +84,6 @@ bool isKeyInTheDictionary(Dictionary *dictionary, const int key) {
 
 Node *minValueNode(Node *node) {
     Node *current = node;
-
     while (current && current->leftChild != NULL)
         current = current->leftChild;
 

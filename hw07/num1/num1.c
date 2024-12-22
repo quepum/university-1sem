@@ -16,6 +16,7 @@ void showCommands() {
 int main(void) {
     tests();
     printf("Tests were passed successfully!\n");
+
     int command = 0;
     int key = 0;
     Dictionary *dictionary = createDictionary();

@@ -5,7 +5,10 @@
 typedef struct Node Node;
 typedef struct Dictionary Dictionary;
 
+// function that creates dictionary
 Dictionary *createDictionary();
+
+// function that deletes dictionary
 void deleteDictionary(Dictionary *dictionary);
 
 //function for adding a key and a value if there are no such key in the dictionary
