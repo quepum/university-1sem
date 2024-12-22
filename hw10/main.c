@@ -15,7 +15,7 @@ int main(void) {
     State 1: 2 1 0
     State 2: 4 3
     */
-    if (!readInputData("C:\\CLionProjects\\homeworks\\hw10\\inputData.txt", &numCities, &numRoads, roads, &numStates,
+    if (!readInputData("hw10\\inputData.txt", &numCities, &numRoads, roads, &numStates,
                        capitals, &numCapitals, &errorCode)) {
         return -1;
     }
