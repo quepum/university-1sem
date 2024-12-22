@@ -9,7 +9,7 @@ int main() {
     }
     printf("Tests were passed successfully\n");
 
-    FILE *file = fopen("C:\\CLionProjects\\homeworks\\hw07\\num2\\inputData.txt", "r");
+    FILE *file = fopen("hw07\\num2\\inputData.txt", "r");
     if (file == NULL) {
         printf("No such file");
         return -1;
