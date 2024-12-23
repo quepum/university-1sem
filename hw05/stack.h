@@ -2,16 +2,13 @@
 
 #include <stdbool.h>
 
-typedef struct Element {
-    int value;
-    struct Element *next;
-} Element;
+typedef struct Element Element;
 
 // function that adds a new element to the stack
-Element *push(Element *head, int value);
+Element *push(Element *head, int value, int *errorCode);
 
 // function that removes the first element of the stack
-Element *pop(Element *head);
+int pop(Element **head);
 
 // function that returns the value of the first element in the stack
 int peek(Element *head);

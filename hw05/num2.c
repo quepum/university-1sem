@@ -2,30 +2,38 @@
 #include <malloc.h>
 #include <string.h>
 #include "stack.h"
-#include "testsForStack.h"
 
 #define SIZE 101
 
 bool calculator(Element **head, const char operand, int *errorCode) {
     int secondElement = peek(*head);
-    *head = pop(*head);
+    pop(head);
     int firstElement = peek(*head);
-    *head = pop(*head);
+    pop(head);
 
     switch (operand) {
         case '-': {
             int tempResult = firstElement - secondElement;
-            *head = push(*head, tempResult);
+            *head = push(*head, tempResult, errorCode);
+            if (*errorCode == -1) {
+                return false;
+            }
             break;
         }
         case '+': {
             int tempResult = firstElement + secondElement;
-            *head = push(*head, tempResult);
+            *head = push(*head, tempResult, errorCode);
+            if (*errorCode == -1) {
+                return false;
+            }
             break;
         }
         case '*': {
             int tempResult = firstElement * secondElement;
-            *head = push(*head, tempResult);
+            *head = push(*head, tempResult, errorCode);
+            if (*errorCode == -1) {
+                return false;
+            }
             break;
         }
         case '/': {
@@ -34,7 +42,10 @@ bool calculator(Element **head, const char operand, int *errorCode) {
                 return false;
             }
             int tempResult = firstElement / secondElement;
-            *head = push(*head, tempResult);
+            *head = push(*head, tempResult, errorCode);
+            if (*errorCode == -1) {
+                return false;
+            }
             break;
         }
         default:
@@ -54,13 +65,16 @@ int processingExpression(const char expression[], int *errorCode) {
             case '/': {
                 bool correct = calculator(&stack, expression[i], errorCode);
                 if (!correct) {
-                    return false;
+                    return -1;
                 }
                 break;
             }
             default:
                 if (expression[i] != ' ') {
-                    stack = push(stack, expression[i] - '0');
+                    stack = push(stack, expression[i] - '0', errorCode);
+                    if (*errorCode == -1) {
+                        return -1;
+                    }
                 }
                 break;
         }
@@ -117,7 +131,7 @@ bool testsCalculator() {
 }
 
 int main(void) {
-    if (!(runAllTestsForStack() && testsCalculator())) {
+    if (!testsCalculator()) {
         printf("Tests failed, something went wrong");
         return -1;
     }

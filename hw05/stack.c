@@ -2,27 +2,40 @@
 #include <stdlib.h>
 #include "stack.h"
 
-Element *push(Element *head, int value) {
-    Element *element = malloc(sizeof(Element)); //выделяем память для нового объекта
-    element->value = value; //кладём в значение нового объекта значение которое хотим добавить
-    element->next = head; //переводим указатель следующего элемента на тот который был первым до
-    return element; //возвращаем указатель на новый созданный объект
+typedef struct Element {
+    int value;
+    struct Element *next;
+} Element;
+
+Element *push(Element *head, int value, int *errorCode) {
+    Element *element = calloc(1, sizeof(Element));
+    if (element == NULL) {
+        *errorCode = -1;
+        printf("Out of memory");
+        return NULL;
+    }
+    element->value = value;
+    element->next = head;
+    return element;
 }
 
-Element *pop(Element *head) {
-    if (head == NULL) {
-        return head;
+int pop(Element **head) {
+    if (*head == NULL) {
+        printf("Stack is empty\n");
+        return -1;
     }
-    Element *elementNext = head->next; // если head есть, то этот указатель равен адресу след объекта
-    free(head);
-    return elementNext;
+    int element = (*head)->value;
+    Element *newElement = (*head)->next;
+    free(*head);
+    (*head) = newElement;
+    return element;
 }
 
 int peek(Element *head) {
     if (head == NULL) {
         return -1;
     }
-    return head->value; //возвращаем значение указателя head если стек не пустой
+    return head->value;
 }
 
 int sizeStack(Element *head) {
