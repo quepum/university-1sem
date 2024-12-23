@@ -42,8 +42,12 @@ void removeList(Record *head) {
 }
 
 Record *merge(Record *left, Record *right, int sortByName) {
-    if (left == NULL) return right;
-    if (right == NULL) return left;
+    if (left == NULL) {
+        return right;
+    }
+    if (right == NULL) {
+        return left;
+    }
 
     Record *result = NULL;
 
@@ -56,7 +60,6 @@ Record *merge(Record *left, Record *right, int sortByName) {
             result->next = merge(left, right->next, sortByName);
         }
     } else {
-        // Сортировка по номеру телефона
         if (strcmp(left->phone, right->phone) <= 0) {
             result = left;
             result->next = merge(left->next, right, sortByName);
@@ -70,27 +73,27 @@ Record *merge(Record *left, Record *right, int sortByName) {
 }
 
 void split(Record *source, Record **left, Record **right) {
-    Record *slow;
-    Record *fast;
-    slow = source;
-    fast = source->next;
+    Record *middle;
+    Record *end;
+    middle = source;
+    end = source->next;
 
-    while (fast != NULL) {
-        fast = fast->next;
-        if (fast != NULL) {
-            slow = slow->next;
-            fast = fast->next;
+    while (end != NULL) {
+        end = end->next;
+        if (end != NULL) {
+            middle = middle->next;
+            end = end->next;
         }
     }
 
     *left = source;
-    *right = slow->next;
-    slow->next = NULL;
+    *right = middle->next;
+    middle->next = NULL;
 }
 
 Record *mergeSort(Record *head, int sortByName) {
     if (head == NULL || head->next == NULL) {
-        return head; // Если список пуст или содержит один элемент
+        return head;
     }
 
     Record *left;

@@ -36,10 +36,12 @@ bool testWithSameRecords() {
     }
     mergeSort(head, 1);
     if (!isSorted(head, 1)) {
+        removeList(head);
         return false;
     }
     mergeSort(head, 0);
     if (!isSorted(head, 0)) {
+        removeList(head);
         return false;
     }
     removeList(head);
@@ -57,10 +59,12 @@ bool testWithUsualData() {
     }
     mergeSort(head, 1);
     if (!isSorted(head, 1)) {
+        removeList(head);
         return false;
     }
     mergeSort(head, 0);
     if (!isSorted(head, 0)) {
+        removeList(head);
         return false;
     }
     removeList(head);
