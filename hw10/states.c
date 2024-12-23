@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define INFINITY_DISTANCE 1000000
+const int infinityDistance = 1000000;
 
 bool readInputData(const char *filename, int *numCities, int *numRoads, Road roads[], int *numStates, int capitals[],
                    int *numCapitals, int *errorCode) {
@@ -30,7 +30,7 @@ bool readInputData(const char *filename, int *numCities, int *numRoads, Road roa
 }
 
 int searchMinDistanceToState(int cityId, int stateId, State *states, Road *roads, int numRoads) {
-    int minDistance = INFINITY_DISTANCE;
+    int minDistance = infinityDistance;
     List *cityList = states[stateId].cities;
     if (cityList == NULL) {
         return minDistance;
@@ -82,7 +82,7 @@ void assignCitiesToStates(State states[], int numStates, City cities[], Road roa
     int assignedCities = numStates;
     while (assignedCities < numCities) {
         for (int i = 1; i <= numStates; i++) {
-            int minDistance = INFINITY_DISTANCE;
+            int minDistance = infinityDistance;
             int closestCityId = -1;
 
             for (int j = 0; j < numCities; j++) {

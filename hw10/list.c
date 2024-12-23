@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 List *createNewList() {
-    List *list = (List *) malloc(sizeof(List));
+    List *list = calloc(1, sizeof(List));
     if (list == NULL) {
         perror("Memory error");
         exit(EXIT_FAILURE);
@@ -27,7 +27,7 @@ void removeList(List *list) {
 }
 
 void addElement(List *list, void *data, int *errorCode) {
-    ListNode *newNode = (ListNode *) malloc(sizeof(ListNode));
+    ListNode *newNode = calloc(1, sizeof(ListNode));
     if (newNode == NULL) {
         *errorCode = -1;
         printf("Memory error");
