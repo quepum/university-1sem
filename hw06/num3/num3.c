@@ -6,13 +6,13 @@
 
 void readEntries(Record **head, const char *fileName, int *errorCode) {
     FILE *file;
-    file = fopen(fileName, "a+");
+    file = fopen(fileName, "r");
     if (file == NULL) {
         *errorCode = -1;
         return;
     }
-    char name[SIZE];
-    char phoneNumber[SIZE];
+    char name[SIZE] = {'\0'};
+    char phoneNumber[SIZE] = {'\0'};
     while (fscanf(file, "%s", name) != EOF && fscanf(file, "%s", phoneNumber) != EOF) {
         appendRecord(head, name, phoneNumber, errorCode);
         if (*errorCode == -1) {
