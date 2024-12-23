@@ -3,9 +3,12 @@
 #include <assert.h>
 #include "stack.h"
 
-Element *push(Element *head, char value) {
-    Element *element = malloc(sizeof(Element)); //выделяем память для нового объекта
-    assert(element != NULL);
+Element *push(Element *head, char value, int *errorCode) {
+    Element *element = calloc(1, sizeof(Element)); //выделяем память для нового объекта
+    if (element == NULL) {
+        *errorCode = -1;
+        return NULL;
+    }
     element->value = value; //кладём в значение нового объекта значение котрое хотим добавить
     element->next = head; //переводим указатель следующего элемента на тот который был первым до
     return element; //возвращаем указатель на новый созданный объект
@@ -42,7 +45,7 @@ bool isEmpty(Element *head) {
     return head == NULL;
 }
 
-void removeStack(Element **head) {
+void deleteStack(Element **head) {
     Element *current = *head;
     Element *temp;
 

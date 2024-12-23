@@ -8,7 +8,7 @@ typedef struct Element {
 } Element;
 
 // function that adds a new element to the stack
-Element *push(Element *head, char value);
+Element *push(Element *head, char value, int *errorCode);
 
 // function that removes the first element of the stack
 char pop(Element **head);
@@ -23,4 +23,4 @@ void show(Element *head);
 bool isEmpty(Element *head);
 
 // function that deletes the stack
-void removeStack(Element **head);
+void deleteStack(Element **head);
