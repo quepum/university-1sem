@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include "stack.h"
 
-char push(Element **head, char value) {
-    Element *element = calloc(1, sizeof(Element)); //выделяем память для нового объекта
+char push(Element **head, char value, int *errorCode) {
+    Element *element = calloc(1, sizeof(Element));
     if (element == NULL) {
-        printf("Out of memory\n");
+        *errorCode = -1;
+        printf("Out of memory");
         return -1;
     }
     element->value = value; //кладём в значение нового объекта значение которое хотим добавить
@@ -16,7 +17,8 @@ char push(Element **head, char value) {
 
 char pop(Element **head) {
     if (*head == NULL) {
-        return 0;
+        printf("Stack is empty\n");
+        return -1;
     }
     char element = (*head)->value;
     Element *newElement = (*head)->next;
@@ -27,7 +29,8 @@ char pop(Element **head) {
 
 char peek(Element *head) {
     if (head == NULL) {
-        return '\0';
+        printf("Stack is empty\n");
+        return -1;
     }
     return head->value; //возвращаем значение указателя head если стек не пустой
 }

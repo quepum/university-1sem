@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "stack.h"
-#include "testsForStack.h"
 
 #define SIZE 101
 
@@ -9,13 +9,17 @@ bool checkSecondBracket(Element **head, char bracket) {
 }
 
 bool isBalanced(const char str[], int size) {
+    int errorCode = 0;
     Element *stack = NULL;
     for (int i = 0; i < size; ++i) {
         switch (str[i]) {
             case '(':
             case '{':
             case '[':
-                push(&stack, str[i]);
+                push(&stack, str[i], &errorCode);
+                if (errorCode == -1) {
+                    return false;
+                }
                 break;
             case ')':
                 if (!checkSecondBracket(&stack, '(')) {
@@ -42,7 +46,7 @@ bool isBalanced(const char str[], int size) {
     return res == '\0';
 }
 
-bool tests() {
+bool runAllTests() {
     char testingString1[6] = "({[]})";
     if (!isBalanced(testingString1, 6)) {
         return false;
@@ -66,11 +70,11 @@ bool tests() {
 }
 
 int main(void) {
-    if (!(testsForStack() && tests())) {
+    if (!runAllTests()) {
         printf("Tests failed, something went wrong");
         return -1;
     }
-    printf("The tests were passed successfully\n");
+    printf("The runAllTests were passed successfully\n");
 
     char string[SIZE] = {'\0'};
     printf("Enter a string no longer than 100 characters\n");
