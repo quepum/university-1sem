@@ -2,5 +2,5 @@
 
 #include <stdbool.h>
 
-//some tests
+// some tests for AVL-tree
 bool tests();

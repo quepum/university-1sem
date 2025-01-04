@@ -2,10 +2,21 @@
 #include <malloc.h>
 #include <string.h>
 #include <stdbool.h>
-#include "tree.h"
 
-Node *createNewNode(const char *key, const char *value) {
-    Node *node = (Node *) malloc(sizeof(Node));
+typedef struct Node {
+    char *key;
+    char *value;
+    struct Node *leftChild;
+    struct Node *rightChild;
+    int height;
+} Dictionary;
+
+Dictionary *createNewNode(const char *key, const char *value, int *errorCode) {
+    Dictionary *node = (Dictionary *) malloc(sizeof(Dictionary));
+    if (node == NULL) {
+        *errorCode = -1;
+        return NULL;
+    }
     node->key = strdup(key);
     node->value = strdup(value);
     node->leftChild = NULL;
@@ -14,10 +25,10 @@ Node *createNewNode(const char *key, const char *value) {
     return node;
 }
 
-void freeNode(Node *node) {
+void freeNode(Dictionary *node) {
     if (node) {
-        free((void *) node->key);
-        free((void *) node->value);
+        free(node->key);
+        free(node->value);
         free(node);
     }
 }
@@ -26,55 +37,59 @@ int max(int num1, int num2) {
     return (num1 > num2) ? num1 : num2;
 }
 
-int heightUpdater(Node *node) {
+int updateHeight(Dictionary *node) {
     return (node == NULL) ? 0 : node->height;
 }
 
-Node *rotateRight(Node *node) {
-    Node *new = node->leftChild;
-    Node *tmp = new->rightChild;
+Dictionary *rotateRight(Dictionary *node) {
+    Dictionary *new = node->leftChild;
+    Dictionary *tmp = new->rightChild;
 
     new->rightChild = node;
     node->leftChild = tmp;
 
-    node->height = max(heightUpdater(node->leftChild), heightUpdater(node->rightChild)) + 1;
-    new->height = max(heightUpdater(new->leftChild), heightUpdater(new->rightChild)) + 1;
+    node->height = max(updateHeight(node->leftChild), updateHeight(node->rightChild)) + 1;
+    new->height = max(updateHeight(new->leftChild), updateHeight(new->rightChild)) + 1;
 
     return new;
 }
 
-Node *rotateLeft(Node *node) {
-    Node *new = node->rightChild;
-    Node *tmp = new->leftChild;
+Dictionary *rotateLeft(Dictionary *node) {
+    Dictionary *new = node->rightChild;
+    Dictionary *tmp = new->leftChild;
 
     new->leftChild = node;
     node->rightChild = tmp;
 
-    node->height = max(heightUpdater(node->leftChild), heightUpdater(node->rightChild)) + 1;
-    new->height = max(heightUpdater(new->leftChild), heightUpdater(new->rightChild)) + 1;
+    node->height = max(updateHeight(node->leftChild), updateHeight(node->rightChild)) + 1;
+    new->height = max(updateHeight(new->leftChild), updateHeight(new->rightChild)) + 1;
 
     return new;
 }
 
-int getBalance(Node *node) {
-    return (node == NULL) ? 0 : heightUpdater(node->leftChild) - heightUpdater(node->rightChild);
+int getBalance(Dictionary *node) {
+    return (node == NULL) ? 0 : updateHeight(node->leftChild) - updateHeight(node->rightChild);
 }
 
-Node *insert(Node *node, const char *key, const char *value) {
+Dictionary *insert(Dictionary *node, const char *key, const char *value, int *errorCode) {
     if (node == NULL) {
-        return createNewNode(key, value);
+        Dictionary *new = createNewNode(key, value, errorCode);
+        if (*errorCode != 0) {
+            return NULL;
+        }
+        return new;
     }
     if (strcmp(key, node->key) < 0) {
-        node->leftChild = insert(node->leftChild, key, value);
+        node->leftChild = insert(node->leftChild, key, value, errorCode);
     } else if (strcmp(key, node->key) > 0) {
-        node->rightChild = insert(node->rightChild, key, value);
+        node->rightChild = insert(node->rightChild, key, value, errorCode);
     } else {
-        free((void *) node->value);
+        free(node->value);
         node->value = strdup(value);
         return node;
     }
 
-    node->height = 1 + max(heightUpdater(node->leftChild), heightUpdater(node->rightChild));
+    node->height = 1 + max(updateHeight(node->leftChild), updateHeight(node->rightChild));
     int balance = getBalance(node);
 
     if (balance > 1 && strcmp(key, node->leftChild->key) < 0) {
@@ -91,16 +106,15 @@ Node *insert(Node *node, const char *key, const char *value) {
         node->rightChild = rotateRight(node->rightChild);
         return rotateLeft(node);
     }
-
     return node;
 }
 
-Node *getValue(Node *node, const char *key) {
+const char *getValue(Dictionary *node, const char *key) {
     if (node == NULL) {
         return NULL;
     }
     if (strcmp(key, node->key) == 0) {
-        return node;
+        return node->value;
     }
     if (strcmp(key, node->key) < 0) {
         return getValue(node->leftChild, key);
@@ -108,18 +122,18 @@ Node *getValue(Node *node, const char *key) {
     return getValue(node->rightChild, key);
 }
 
-bool isKeyInTree(Node *node, const char *key) {
+bool isKeyInTree(Dictionary *node, const char *key) {
     return getValue(node, key) != NULL;
 }
 
-Node *minValueNode(Node *node) {
-    Node *current = node;
+Dictionary *minValueNode(Dictionary *node) {
+    Dictionary *current = node;
     while (current->leftChild != NULL)
         current = current->leftChild;
     return current;
 }
 
-Node *deleteNode(Node *root, const char *key) {
+Dictionary *deleteNode(Dictionary *root, const char *key) {
     if (root == NULL) {
         return root;
     }
@@ -130,26 +144,30 @@ Node *deleteNode(Node *root, const char *key) {
         root->rightChild = deleteNode(root->rightChild, key);
     } else {
         if ((root->leftChild == NULL) || (root->rightChild == NULL)) {
-            Node *temp = root->leftChild ? root->leftChild : root->rightChild;
+            Dictionary *temp = root->leftChild ? root->leftChild : root->rightChild;
             if (temp == NULL) {
                 freeNode(root);
                 return NULL;
             } else {
-                Node *oldRoot = root;
+                Dictionary *oldRoot = root;
                 root = temp;
                 freeNode(oldRoot);
             }
         } else {
-            Node *temp = minValueNode(root->rightChild);
-            root->key = temp->key;
-            root->value = temp->value;
+            Dictionary *temp = minValueNode(root->rightChild);
+            free(root->key);
+            char *keyCopy = strdup(temp->key);
+            root->key = keyCopy;
+            free(root->value);
+            char *valueCopy = strdup(temp->value);
+            root->value = valueCopy;
             root->rightChild = deleteNode(root->rightChild, temp->key);
         }
     }
 
     if (root == NULL) return root;
 
-    root->height = 1 + max(heightUpdater(root->leftChild), heightUpdater(root->rightChild));
+    root->height = 1 + max(updateHeight(root->leftChild), updateHeight(root->rightChild));
     int balance = getBalance(root);
 
     if (balance > 1 && getBalance(root->leftChild) >= 0) {
@@ -166,15 +184,31 @@ Node *deleteNode(Node *root, const char *key) {
         root->rightChild = rotateRight(root->rightChild);
         return rotateLeft(root);
     }
-
     return root;
 }
 
-void freeAVL(Node *node) {
+void freeTree(Dictionary *node) {
     if (node == NULL) {
         return;
     }
-    freeAVL(node->leftChild);
-    freeAVL(node->rightChild);
+    freeTree(node->leftChild);
+    freeTree(node->rightChild);
     freeNode(node);
+}
+
+bool isAVL(Dictionary *node) {
+    if (node == NULL) {
+        return true;
+    }
+    int balance = getBalance(node);
+    if (balance < -1 || balance > 1) {
+        return false;
+    }
+    if (node->leftChild != NULL && strcmp(node->key, node->leftChild->key) < 0) {
+        return false;
+    }
+    if (node->rightChild != NULL && strcmp(node->key, node->rightChild->key) > 0) {
+        return false;
+    }
+    return isAVL(node->leftChild) && isAVL(node->rightChild);
 }

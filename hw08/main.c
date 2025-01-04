@@ -19,16 +19,16 @@ int main() {
     }
     printf("The tests were passed successfully!\n");
 
-    Node *root = NULL;
+    Dictionary *root = NULL;
     int command = 0;
     char key[256] = {'\0'};
     char value[256] = {'\0'};
+    int errorCode = 0;
     while (true) {
         showCommands();
         printf("Choose an option: ");
         scanf("%d", &command);
         getchar();
-
         switch (command) {
             case 1:
                 printf("Enter key: ");
@@ -37,15 +37,22 @@ int main() {
                 printf("Enter value: ");
                 fgets(value, 256, stdin);
                 value[strcspn(value, "\n")] = 0;
-                root = insert(root, key, value);
+                root = insert(root, key, value, &errorCode);
+                if (errorCode != 0) {
+                    freeTree(root);
+                    printf("Out of memory");
+                }
+                if (!isAVL(root)) {
+                    printf("Not AVL-tree\n");
+                }
                 break;
             case 2:
                 printf("Enter key: ");
                 fgets(key, 256, stdin);
                 key[strcspn(key, "\n")] = 0;
-                Node *node = getValue(root, key);
-                if (node) {
-                    printf("This key has value: %s\n", node->value);
+                const char *result = getValue(root, key);
+                if (result) {
+                    printf("This key has value: %s\n", result);
                 } else {
                     printf("Key not found.\n");
                 }
@@ -61,13 +68,16 @@ int main() {
                 }
                 break;
             case 4:
-                printf("Enter key: ");
+                printf("Enter key to delete: ");
                 fgets(key, 256, stdin);
                 key[strcspn(key, "\n")] = 0;
                 root = deleteNode(root, key);
+                if (!isAVL(root)) {
+                    printf("Not AVL-tree\n");
+                }
                 break;
             case 5:
-                freeAVL(root);
+                freeTree(root);
                 return 0;
             default:
                 printf("Invalid option. Please, try again.\n");
