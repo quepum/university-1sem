@@ -1,4 +1,4 @@
 #pragma once
 
-//test all dictionary options
-void tests();
+// test all dictionary options
+bool runAllTests();

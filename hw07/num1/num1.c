@@ -1,74 +1,84 @@
 #include <stdio.h>
-#include <malloc.h>
-#include <assert.h>
+#include <stdbool.h>
 #include "tree.h"
 #include "tests.h"
 
 void showCommands() {
-    printf("DICTIONARY COMMANDS:\n"
-           "0-exit\n"
-           "1-add value\n"
-           "2-get value\n"
-           "3-check key\n"
-           "4-remove key and its value\n");
+    printf("MENU:\n");
+    printf("1. Add or update value\n");
+    printf("2. Get value by key\n");
+    printf("3. Check if key exists\n");
+    printf("4. Delete key\n");
+    printf("5. Exit\n");
 }
 
 int main(void) {
-    tests();
-    printf("Tests were passed successfully!\n");
+    if (!runAllTests()) {
+        printf("Tests failed, something went wrong");
+        return -1;
+    }
+    printf("The tests were passed successfully!\n");
 
+    Dictionary *root = NULL;
     int command = 0;
     int key = 0;
-    Dictionary *dictionary = createDictionary();
-    do {
+    char value[256] = {'\0'};
+    int errorCode = 0;
+    while (true) {
         showCommands();
+        printf("Choose an option: ");
         scanf("%d", &command);
+        getchar();
         switch (command) {
-            case 0:
-                break;
             case 1:
-                printf("Enter a key\n");
+                printf("Enter key: ");
                 scanf("%d", &key);
-                printf("Enter a value you want to add\n");
-                char *value = malloc(sizeof(char) * 256);
-                assert(value != NULL && "Memory error\n");
-                scanf("%s", value);
-                if (isKeyInTheDictionary(dictionary, key)) {
-                    changeData(dictionary, key, value);
-                } else {
-                    insert(dictionary, key, value);
+                getchar();
+                printf("Enter value: ");
+                fgets(value, 256, stdin);
+                root = insert(root, key, value, &errorCode);
+                if (errorCode != 0) {
+                    freeDictionary(root);
+                    printf("Out of memory");
+                    errorCode = 0;
                 }
-                printf("Successfully!\n");
                 break;
             case 2:
-                printf("Enter a key\n");
+                printf("Enter key: ");
                 scanf("%d", &key);
-                printf("Key %d has value %s\n", key, getValue(dictionary, key));
+                getchar();
+                char *result = getValue(root, key);
+                if (result) {
+                    printf("This key has value: %s\n", result);
+                } else {
+                    printf("Key not found.\n");
+                }
                 break;
             case 3:
-                printf("Enter a key\n");
+                printf("Enter key: ");
                 scanf("%d", &key);
-                if (isKeyInTheDictionary(dictionary, key)) {
-                    printf("The key %d is in the dictionary\n", key);
+                getchar();
+                if (isKeyInDictionary(root, key)) {
+                    printf("Key exists.\n");
                 } else {
-                    printf("There's no such key\n");
+                    printf("Key does not exist.\n");
                 }
                 break;
             case 4:
-                printf("Enter a key\n");
+                printf("Enter key to delete: ");
                 scanf("%d", &key);
-                if (isKeyInTheDictionary(dictionary, key)) {
-                    removeKey(dictionary, key);
-                } else {
-                    printf("There is no such key\n");
+                getchar();
+                root = deleteElement(root, key, &errorCode);
+                if (errorCode != 0) {
+                    printf("Out of memory");
+                    errorCode = 0;
                 }
                 break;
+            case 5:
+                freeDictionary(root);
+                return 0;
             default:
-                printf("Invalid input, try again\n");
-                deleteDictionary(dictionary);
-                break;
+                printf("Invalid option. Please, try again.\n");
         }
-    } while (command != 0);
-    deleteDictionary(dictionary);
-    return 0;
+    }
 }

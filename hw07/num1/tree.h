@@ -1,27 +1,19 @@
+#include <stdbool.h>
 #pragma once
 
-#include <stdbool.h>
+typedef struct Node Dictionary;
 
-typedef struct Node Node;
-typedef struct Dictionary Dictionary;
+// function that inserts a new node by given key and value into the dictionary
+Dictionary *insert(Dictionary *node, int key, char *value, int *errorCode);
 
-// function that creates dictionary
-Dictionary *createDictionary();
+// function that gets value from the dictionary by given key
+char *getValue(Dictionary *node, int key);
+
+// function that checks if given key exists in the dictionary
+bool isKeyInDictionary(Dictionary *node, int key);
+
+// function that deletes the key and its value from the dictionary
+Dictionary *deleteElement(Dictionary *node, int key, int *errorCode);
 
 // function that deletes dictionary
-void deleteDictionary(Dictionary *dictionary);
-
-//function for adding a key and a value if there are no such key in the dictionary
-void insert(Dictionary *dictionary, int key, char *value);
-
-//function of getting the value by key
-char *getValue(Dictionary *dictionary, int key);
-
-//function of checking the existence of this key in the dictionary
-bool isKeyInTheDictionary(Dictionary *dictionary, int key);
-
-//function of removing a key and its value from the dictionary
-void removeKey(Dictionary *dictionary, int key);
-
-//key value change function
-void changeData(Dictionary *dictionary, int key, char *newData);
+void freeDictionary(Dictionary *node);
