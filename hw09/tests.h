@@ -1,8 +1,5 @@
-//
-// Created by Алина on 03.12.2024.
-//
+#pragma once
+#include <stdbool.h>
 
-#ifndef HW4T2_TESTS_H
-#define HW4T2_TESTS_H
-
-#endif //HW4T2_TESTS_H
+// some tests for hash table
+bool runAllTests();

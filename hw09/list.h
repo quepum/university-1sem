@@ -1,15 +1,26 @@
 #pragma once
+#include <stdbool.h>
 
-typedef struct Node {
-    char *word;
-    int frequency;
-    struct Node *next;
-} Node;
+typedef struct Node Node;
+typedef struct List List;
 
-typedef struct List {
-    Node *head;
-} List;
+// function that create new list
+List *createList();
 
-List *create_list();
-void insert(List *list, char *word);
-void freeList(List *list);
+// function that deletes list
+void deleteList(List *list);
+
+// function that adds a new word to the list
+bool addNewElement(List *list, char *word);
+
+// function that finds a word in the list
+Node *findElement(List *list, char *word);
+
+// function that increments the count of a node
+void incrementCount(Node *node);
+
+// function that gets list length
+int getListLength(List *list);
+
+// function that shows all list elements
+void printList(List *list);
