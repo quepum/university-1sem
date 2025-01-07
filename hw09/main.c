@@ -50,7 +50,6 @@ int main(void) {
     }
     fclose(file);
 
-
     printf("Hash-table statistic\n");
     double loadFactor = getFillFactor(hashTable);
     printf("Load factor: %.2f\n", loadFactor);

@@ -47,7 +47,6 @@ void deleteHashTable(HashTable *hashTable) {
     free(hashTable);
 }
 
-
 bool addOrIncrement(HashTable *hashTable, char *word, int *errorCode) {
     if (!hashTable || !word) {
         *errorCode = 1;
@@ -88,7 +87,6 @@ void printHashTable(HashTable *hashTable) {
         }
     }
 }
-
 
 double getFillFactor(HashTable *hashTable) {
     if (hashTable == NULL) {
