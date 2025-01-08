@@ -5,7 +5,6 @@
 
 #define INFINITY 1000000
 
-// Структуры (внутри модуля)
 typedef struct Road {
     int from;
     int to;
@@ -22,12 +21,23 @@ typedef struct State {
     List *cities;
 } State;
 
+Road *createRoads() {
+    return calloc(MAX_ROADS, sizeof(Road));
+}
+
+City *createCities() {
+    return calloc(MAX_CITIES, sizeof(City));
+}
+
+State *createStates(int numCapitals) {
+    return calloc(numCapitals, sizeof(State));
+}
+
 bool readInputData(const char *filename, int *numCities, int *numRoads, Road *roads, int *numStates, int capitals[],
                    int *numCapitals, int *errorCode) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         *errorCode = -1;
-        printf("Error: no such file\n");
         return false;
     }
 
@@ -75,14 +85,13 @@ void initializeCities(City *cities, int numCities) {
     }
 }
 
-void initializeStates(State *states, int numStates, const int capitals[], City *cities, int *errorCode) {
+void initializeStates(State *states, int numStates, int *capitals, City *cities, int *errorCode) {
     for (int i = 0; i < numStates; i++) {
         states[i].id = i + 1;
         states[i].cities = createNewList(errorCode);
         int *capitalId = calloc(1, sizeof(int));
         if (capitalId == NULL) {
             *errorCode = -1;
-            printf("Memory error\n");
             return;
         }
         *capitalId = capitals[i];
@@ -114,14 +123,13 @@ void assignCitiesToStates(State *states, int numStates, City *cities, Road *road
             if (closestCityId != -1) {
                 int *cityId = calloc(1, sizeof(int));
                 if (cityId == NULL) {
-                    *errorCode = 1;
-                    printf("Memory error\n");
+                    *errorCode = -1;
                     return;
                 }
-
                 *cityId = closestCityId;
                 addElement(states[i - 1].cities, cityId, errorCode);
                 if (*errorCode == -1) {
+                    free(cityId);
                     return;
                 }
                 cities[closestCityId].state = states[i - 1].id;
@@ -145,5 +153,13 @@ void printResults(State *states, int numStates) {
             current = getNextNode(current);
         }
         printf("\n");
+    }
+}
+
+void freeStates(State *states, int numStates) {
+    for (int i = 0; i < numStates; i++) {
+        if (states[i].cities != NULL) {
+            removeList(states[i].cities);
+        }
     }
 }

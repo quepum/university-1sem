@@ -3,20 +3,20 @@
 typedef struct ListNode ListNode;
 typedef struct List List;
 
-// Создание нового списка
+// function for creating new list
 List *createNewList(int *errorCode);
 
-// Удаление списка и его элементов
+// function that deletes list
 void removeList(List *list);
 
-// Добавление элемента в начало списка
+// function that adds new element to list
 void addElement(List *list, void *data, int *errorCode);
 
-// Получение головы списка
+// function that returns head of the list
 ListNode *getHead(List *list);
 
-// Получение следующего элемента
+// function that returns next node of the list
 ListNode *getNextNode(ListNode *node);
 
-// Получение данных из элемента
+// function that gets data from list node
 void *getData(ListNode *node);

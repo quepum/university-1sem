@@ -1,5 +1,4 @@
 #include <stdlib.h>
-//"..\\hw10\\inputData.txt"
 
 typedef struct ListNode {
     void *data;
