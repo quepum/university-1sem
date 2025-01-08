@@ -6,24 +6,12 @@
 #define MAX_CITIES 100
 #define MAX_ROADS 200
 
-typedef struct Road {
-    int from;
-    int to;
-    int len;
-} Road;
-
-typedef struct City {
-    int id;
-    int state;
-} City;
-
-typedef struct State {
-    int id;
-    List *cities;
-} State;
+typedef struct Road Road;
+typedef struct City City;
+typedef struct State State;
 
 // function for reading data from a file
-bool readInputData(const char *filename, int *numCities, int *numRoads, Road roads[], int *numStates, int capitals[],
+bool readInputData(const char *filename, int *numCities, int *numRoads, Road *roads, int *numStates, int capitals[],
                    int *numCapitals, int *errorCode);
 
 
@@ -31,14 +19,14 @@ bool readInputData(const char *filename, int *numCities, int *numRoads, Road roa
 int searchMinDistanceToState(int cityId, int stateId, State *states, Road *roads, int numRoads);
 
 // function for initializing cities
-void initializeCities(City cities[], int numCities);
+void initializeCities(City *cities, int numCities);
 
 // function for initializing states
-void initializeStates(State states[], int numStates, const int capitals[], City cities[], int *errorCode);
+void initializeStates(State *states, int numStates, const int capitals[], City *cities, int *errorCode);
 
 // function of distributing cities by state
-void assignCitiesToStates(State states[], int numStates, City cities[], Road roads[], int numRoads, int numCities,
+void assignCitiesToStates(State *states, int numStates, City *cities, Road *roads, int numRoads, int numCities,
                           int *errorCode);
 
 // the output function of the results
-void printResults(const State states[], int numStates);
+void printResults(State *states, int numStates);

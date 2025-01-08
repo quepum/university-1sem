@@ -3,14 +3,31 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-const int infinityDistance = 1000000;
+#define INFINITY 1000000
 
-bool readInputData(const char *filename, int *numCities, int *numRoads, Road roads[], int *numStates, int capitals[],
+// Структуры (внутри модуля)
+typedef struct Road {
+    int from;
+    int to;
+    int len;
+} Road;
+
+typedef struct City {
+    int id;
+    int state;
+} City;
+
+typedef struct State {
+    int id;
+    List *cities;
+} State;
+
+bool readInputData(const char *filename, int *numCities, int *numRoads, Road *roads, int *numStates, int capitals[],
                    int *numCapitals, int *errorCode) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         *errorCode = -1;
-        printf("Error: no such file");
+        printf("Error: no such file\n");
         return false;
     }
 
@@ -30,14 +47,14 @@ bool readInputData(const char *filename, int *numCities, int *numRoads, Road roa
 }
 
 int searchMinDistanceToState(int cityId, int stateId, State *states, Road *roads, int numRoads) {
-    int minDistance = infinityDistance;
+    int minDistance = INFINITY;
     List *cityList = states[stateId].cities;
     if (cityList == NULL) {
         return minDistance;
     }
-    ListNode *current = cityList->head;
+    ListNode *current = getHead(cityList);
     while (current != NULL) {
-        int stateCityId = *(int *) current->data;
+        int stateCityId = *(int *) getData(current);
         for (int j = 0; j < numRoads; j++) {
             if ((roads[j].from == cityId && roads[j].to == stateCityId) ||
                 (roads[j].to == cityId && roads[j].from == stateCityId)) {
@@ -46,26 +63,26 @@ int searchMinDistanceToState(int cityId, int stateId, State *states, Road *roads
                 }
             }
         }
-        current = current->next;
+        current = getNextNode(current);
     }
     return minDistance;
 }
 
-void initializeCities(City cities[], int numCities) {
+void initializeCities(City *cities, int numCities) {
     for (int i = 0; i < numCities; i++) {
         cities[i].id = i;
         cities[i].state = 0;
     }
 }
 
-void initializeStates(State states[], int numStates, const int capitals[], City cities[], int *errorCode) {
+void initializeStates(State *states, int numStates, const int capitals[], City *cities, int *errorCode) {
     for (int i = 0; i < numStates; i++) {
         states[i].id = i + 1;
-        states[i].cities = createNewList();
+        states[i].cities = createNewList(errorCode);
         int *capitalId = calloc(1, sizeof(int));
         if (capitalId == NULL) {
             *errorCode = -1;
-            printf("Memory error");
+            printf("Memory error\n");
             return;
         }
         *capitalId = capitals[i];
@@ -77,12 +94,12 @@ void initializeStates(State states[], int numStates, const int capitals[], City 
     }
 }
 
-void assignCitiesToStates(State states[], int numStates, City cities[], Road roads[], int numRoads, int numCities,
+void assignCitiesToStates(State *states, int numStates, City *cities, Road *roads, int numRoads, int numCities,
                           int *errorCode) {
     int assignedCities = numStates;
     while (assignedCities < numCities) {
         for (int i = 1; i <= numStates; i++) {
-            int minDistance = infinityDistance;
+            int minDistance = INFINITY;
             int closestCityId = -1;
 
             for (int j = 0; j < numCities; j++) {
@@ -98,7 +115,7 @@ void assignCitiesToStates(State states[], int numStates, City cities[], Road roa
                 int *cityId = calloc(1, sizeof(int));
                 if (cityId == NULL) {
                     *errorCode = 1;
-                    printf("Memory error");
+                    printf("Memory error\n");
                     return;
                 }
 
@@ -117,15 +134,15 @@ void assignCitiesToStates(State states[], int numStates, City cities[], Road roa
     }
 }
 
-void printResults(const State states[], int numStates) {
+void printResults(State *states, int numStates) {
     for (int i = 0; i < numStates; i++) {
         printf("State %d: ", states[i].id);
         List *cityList = states[i].cities;
-        ListNode *current = cityList->head;
+        ListNode *current = getHead(cityList);
         while (current != NULL) {
-            int cityId = *(int *) current->data;
+            int cityId = *(int *) getData(current);
             printf("%d ", cityId);
-            current = current->next;
+            current = getNextNode(current);
         }
         printf("\n");
     }

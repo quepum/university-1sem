@@ -1,19 +1,22 @@
 #pragma once
 
-typedef struct ListNode {
-    void *data;
-    struct ListNode *next;
-} ListNode;
+typedef struct ListNode ListNode;
+typedef struct List List;
 
-typedef struct List {
-    ListNode *head;
-} List;
+// Создание нового списка
+List *createNewList(int *errorCode);
 
-// function for creating new list
-List *createNewList();
-
-// function that deletes list
+// Удаление списка и его элементов
 void removeList(List *list);
 
-// function that adds new element to list
+// Добавление элемента в начало списка
 void addElement(List *list, void *data, int *errorCode);
+
+// Получение головы списка
+ListNode *getHead(List *list);
+
+// Получение следующего элемента
+ListNode *getNextNode(ListNode *node);
+
+// Получение данных из элемента
+void *getData(ListNode *node);

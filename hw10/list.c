@@ -1,39 +1,73 @@
-#include "list.h"
 #include <stdlib.h>
-#include <stdio.h>
+//"..\\hw10\\inputData.txt"
 
-List *createNewList() {
-    List *list = calloc(1, sizeof(List));
-    if (list == NULL) {
-        perror("Memory error");
-        exit(EXIT_FAILURE);
+typedef struct ListNode {
+    void *data;
+    struct ListNode *next;
+} ListNode;
+
+typedef struct List {
+    struct ListNode *head;
+} List;
+
+List *createNewList(int *errorCode) {
+    List *newList = (List *) calloc(1, sizeof(List));
+    if (newList == NULL) {
+        *errorCode = -1;
+        return NULL;
     }
-    list->head = NULL;
-    return list;
+    return newList;
 }
 
 void removeList(List *list) {
     if (list == NULL) {
         return;
     }
-
     ListNode *current = list->head;
     while (current != NULL) {
-        ListNode *temp = current;
-        current = current->next;
-        free(temp);
+        ListNode *next = current->next;
+        if (current->data != NULL) {
+            free(current->data);
+        }
+        free(current);
+        current = next;
     }
     free(list);
 }
 
 void addElement(List *list, void *data, int *errorCode) {
-    ListNode *newNode = calloc(1, sizeof(ListNode));
+    if (list == NULL) {
+        *errorCode = 1;
+        return;
+    }
+    ListNode *newNode = (ListNode *) malloc(sizeof(ListNode));
     if (newNode == NULL) {
-        *errorCode = -1;
-        printf("Memory error");
+        *errorCode = 2;
         return;
     }
     newNode->data = data;
     newNode->next = list->head;
     list->head = newNode;
+    *errorCode = 0;
+}
+
+ListNode *getHead(List *list) {
+    if (list == NULL) {
+        return NULL;
+    }
+    return list->head;
+}
+
+ListNode *getNextNode(ListNode *node) {
+    if (node == NULL) {
+        return NULL;
+    }
+    return node->next;
+}
+
+void *getData(ListNode *node) {
+    if (node == NULL) {
+        return NULL;
+    }
+    return node->data;
 }
